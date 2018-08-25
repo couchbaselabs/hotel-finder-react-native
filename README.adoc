@@ -1,0 +1,15 @@
+= Couchbase with React Native on iOS
+
+This tutorial outlines the steps required to integrate Couchbase with a React Native API.
+It will use the Travel Sample example.
+Let's say we would like to be able to display a list of hotels and bookmark those hotels.
+
+== Xcode Project
+
+. Create a new application (for more information refer to the React Native https://facebook.github.io/react-native/docs/getting-started[installation page]).
++
+[source,bash]
+----
+react-native init HotelFinder
+----
+. Open Xcode project
