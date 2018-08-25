@@ -60,6 +60,25 @@ include::HotelFinder/App.js[tag=import-statement,indent=0]
 +
 [source,swift]
 ----
-include::HotelFinder/App.js[tag=open-database,indent=0]
+@objc func openDatabase() {
+
+}
 ----
 
+== Couchbase Lite Setup
+
+. Download Couchbase Lite from https://www.couchbase.com/downloads[here].
+. Unzip the folder and drag *CouchbaseLiteSwift.framework* to the Xcode project.
+. Import the Couchbase SDK in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=import-cbl,indent=0]
+----
+. Replace the content of the `openDatabase` method with the following.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=open-database-body,indent=0]
+----
+. Build and run.
