@@ -7,33 +7,48 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, ListView} from 'react-native';
 // tag::import-statement[]
 import {NativeModules} from 'react-native';
 let HotelFinderBridge = NativeModules.HotelFinderBridge;
 // end::import-statement[]
-
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+// tag::stack-navigator[]
+import { StackNavigator } from 'react-navigation';
+// tag::import-hotels[]
+import Hotels from './Hotels';
+// end::import-hotels[]
+import BookmarkedHotels from './BookmarkedHotels';
+const Navigator = StackNavigator({
+  BookmarkedHotels: {screen: BookmarkedHotels},
+  Hotels: {screen: Hotels},
+  },
+  {
+    mode: 'modal',
+  });
+// end::stack-navigator[]
 
 type Props = {};
 export default class App extends Component<Props> {
+  // tag::constructor[]
+  constructor() {
+    super();
+
+    this.state = {
+      bookmarkedHotels: [],
+      hotels: [],
+    };
+  }
+  // end::constructor[]
+  componentDidMount() {
+    console.log('hi')
+  }
   render() {
-
-    // tag::open-database[]
-    HotelFinderBridge.openDatabase();
-    // end::open-database[]
-
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <Navigator
+        screenProps={this.state}/>
+      // <View style={styles.container}>
+      //   <Hotels hotels={this.state.hotels}/>
+      // </View>
     );
   }
 }
