@@ -1,84 +1,10 @@
-= Couchbase with React Native on iOS
-:snippet: HotelFinder/ios/HotelFinder/
-
-This tutorial outlines the steps required to integrate Couchbase with a React Native API.
-It will use the Travel Sample example.
-Let's say we would like to be able to display a list of hotels and bookmark those hotels.
-
-== React Native Project
-
-. Create a new application (for more information refer to the React Native https://facebook.github.io/react-native/docs/getting-started[installation page]).
-+
 [source,bash]
 ----
-react-native init HotelFinder
-----
-. Start the React Native development server.
-+
-[source,bash]
-----
+git clone git@github.com:jamiltz/couchbase-react-native-ios.git
 cd HotelFinder
+npm install
 npm run start
 ----
-. Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
-. Build and run. You should see the following.
 
-== Native Module Setup
-
-Native Modules are usually created in two parts. Firstly on the native side and then on the JavaScript side.
-
-=== Swift/Objective-C Setup
-
-. Open a new file at *ios/HotelFinder/RCTBridge.m*.
-. Insert the following in *RCTBridge.m*.
-+
-[source,swift]
-----
-include::{snippet}/RCTBridge.m[tag=rct-extern-module,indent=0]
-----
-. Open a new file at *ios/HotelFinder/HotelFinderBridge.swift*.
-. Insert the following in *HotelFinderBridge.swift*.
-+
-[source,swift]
-----
-@objc (HotelFinderBridge)
-class HotelFinderBridge: NSObject {
-
-}
-----
-
-=== JavaScript Setup
-
-. Open *HotelFinder/App.js* in a JavaScript editor.
-. Insert the following at the top of the file.
-+
-[source,swift]
-----
-include::HotelFinder/App.js[tag=import-statement,indent=0]
-----
-. Call the `HotelFinderBridge.openDatabase` method in the component's `render` method.
-+
-[source,swift]
-----
-@objc func openDatabase() {
-
-}
-----
-
-== Couchbase Lite Setup
-
-. Download Couchbase Lite from https://www.couchbase.com/downloads[here].
-. Unzip the folder and drag *CouchbaseLiteSwift.framework* to the Xcode project.
-. Import the Couchbase SDK in *HotelFinderBridge.swift*.
-+
-[source,swift]
-----
-include::{snippet}/HotelFinderBridge.swift[tag=import-cbl,indent=0]
-----
-. Replace the content of the `openDatabase` method with the following.
-+
-[source,swift]
-----
-include::{snippet}/HotelFinderBridge.swift[tag=open-database-body,indent=0]
-----
+. Open `HotelFinder/ios/HotelFinder.xcodeproj` in Xcode.
 . Build and run.
