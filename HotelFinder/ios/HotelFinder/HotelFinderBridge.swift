@@ -131,16 +131,17 @@ class HotelFinderBridge: NSObject {
         Expression.property("type").equalTo(Expression.string("bookmarkedhotels"))
     )
     
-    
-    
     var hotels: [Dictionary<String,Any>] = []
     var result: [Dictionary<String,Any>] = []
     for row in try! query.execute() {
       hotels.append(row.toDictionary())
     }
+    guard hotels.count > 0 else {
+      callback([result])
+      return
+    }
     let hotelDoc = hotels[0]["travel-sample"]! as! Dictionary<String,Any>
     let hotelIds = hotelDoc["hotels"] as! [Int]
-    print(hotelIds);
     for hotelId in hotelIds {
       let document = self.database.document(withID: "hotel_\(hotelId)")
       result.append(document!.toDictionary())
