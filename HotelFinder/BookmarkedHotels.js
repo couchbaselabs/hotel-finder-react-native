@@ -8,7 +8,8 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import {NativeModules} from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+import Swipeout from 'rc-swipeout/lib';
 let HotelFinderBridge = NativeModules.HotelFinderBridge;
 
 export default class BookmarkedHotels extends React.Component {
@@ -37,6 +38,10 @@ export default class BookmarkedHotels extends React.Component {
       this.setState({bookmarkedHotels: hotels});
     });
   }
+  unbookmarkHotel(hotelId) {
+    HotelFinderBridge.unbookmarkHotel(hotelId);
+    this.queryBookmarkedHotels();
+  }
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     let dataSource = ds.cloneWithRows(this.state.bookmarkedHotels);
@@ -48,15 +53,22 @@ export default class BookmarkedHotels extends React.Component {
           style={styles.listView}
           dataSource={dataSource}
           renderRow={(data, sectionID, rowID, highlightRow) => {
-            // let hotel = HotelFinderBridge.queryHotel(`hotel_${data}`, hotel => {
-            //
-            // });
             return (
-              <View style={styles.rowContainer}>
-                <Text style={styles.rowTitle}>
-                  {data.name}
-                </Text>
-              </View>
+              <Swipeout
+                style={{flex: 1}}
+                right={[
+                  {
+                    text: 'Unbookmark',
+                    onPress: () => this.unbookmarkHotel(data.id),
+                  }
+                ]}>
+                <View style={styles.rowContainer}>
+                  <Text style={styles.rowTitle}>
+                    {data.name}
+                  </Text>
+                  <Icon name='bookmark'/>
+                </View>
+              </Swipeout>
             )
           }}>
 
@@ -69,15 +81,14 @@ export default class BookmarkedHotels extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   listView: {
     flex: 1
   },
   rowContainer: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'white',
   },
   rowTitle: {

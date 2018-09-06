@@ -4,10 +4,15 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableHighlight, Button,
+  TouchableHighlight,
+  Button,
 } from 'react-native';
 import { NativeModules } from 'react-native';
-import {SearchBar} from 'react-native-elements';
+import {
+  Icon,
+  SearchBar,
+  Button as ElementsButton
+} from 'react-native-elements';
 import Swipeout from 'rc-swipeout/lib';
 let HotelFinderBridge = NativeModules.HotelFinderBridge;
 
@@ -37,7 +42,9 @@ export default class Hotels extends React.Component {
   }
   queryBookmarkedHotels() {
     HotelFinderBridge.queryBookmarkedHotels(hotels => {
-      this.setState({bookmarkedHotels: hotels[0]});
+      if (hotels.length > 0) {
+        this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
+      }
     });
   }
   bookmarkHotel(hotelId) {
@@ -51,9 +58,7 @@ export default class Hotels extends React.Component {
   isBookmarkedIcon(hotel) {
     if (this.isBookmarked(hotel)) {
       return (
-        <Text style={styles.rowSubtitle}>
-          {'Bookmarked'}
-        </Text>
+        <Icon name='bookmark'/>
       )
     } else {
       return (
@@ -62,14 +67,15 @@ export default class Hotels extends React.Component {
     }
   }
   isBookmarked(hotel) {
-    console.log(this.state.bookmarkedHotels)
-    var item;
-    for (item in this.state.bookmarkedHotels['travel-sample'].hotels) {
-      let itemId = this.state.bookmarkedHotels['travel-sample'].hotels[item];
-      console.log(itemId, hotel['travel-sample'].id);
-      if (itemId === hotel['travel-sample'].id) {
-        return true;
+    if (this.state.bookmarkedHotels.length > 0) {
+      var item;
+      for (item in this.state.bookmarkedHotels) {
+        let itemId = this.state.bookmarkedHotels[item];
+        if (`hotel_${itemId}` === hotel.id) {
+          return true;
+        }
       }
+      return false;
     }
     return false;
   }
@@ -95,7 +101,6 @@ export default class Hotels extends React.Component {
   }
   onChangeText(descriptionText, locationText) {
     HotelFinderBridge.searchHotels(descriptionText, locationText, hotels => {
-      console.log(hotels);
       this.setState({hotels: hotels})
     });
   }
@@ -108,17 +113,23 @@ export default class Hotels extends React.Component {
         <SearchBar
           lightTheme
           onChangeText={(text) => {
-            this.onChangeText(text, this.state.locationText);
+            this.setState({descriptionText: text});
           }}
           placeholder='Description'
           style={{flex: 1, width: '100%'}}/>
         <SearchBar
           lightTheme
           onChangeText={(text) => {
-            this.onChangeText(this.state.descriptionText, text);
+            this.setState({locationText: text});
           }}
           placeholder='Country'
           style={{flex: 1, width: '100%'}}/>
+        <ElementsButton
+          backgroundColor='lightblue'
+          onPress={() => {
+            this.onChangeText(this.state.descriptionText, this.state.locationText);
+          }}
+          title='Lookup' />
         <ListView
           dataSource={dataSource}
           enableEmptySections={true}
@@ -129,12 +140,9 @@ export default class Hotels extends React.Component {
                 autoClose={true}
                 right={this.isBookmarkedSwipeout(data)}>
                 <View style={styles.rowContainer}>
-                  <TouchableHighlight
-                    onPress={() => {HotelFinderBridge.bookmarkHotel(data['travel-sample'].id)}}>
-                    <Text style={styles.rowTitle}>
-                      {data['travel-sample'].name}
-                    </Text>
-                  </TouchableHighlight>
+                  <Text style={styles.rowTitle}>
+                    {data['travel-sample'].name}
+                  </Text>
                   {this.isBookmarkedIcon(data)}
                 </View>
               </Swipeout>
@@ -158,6 +166,8 @@ const styles = StyleSheet.create({
   },
   rowContainer: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'white',
   },
   rowTitle: {

@@ -39,16 +39,10 @@ export default class App extends Component<Props> {
     };
   }
   // end::constructor[]
-  componentDidMount() {
-    console.log('hi')
-  }
   render() {
     return (
       <Navigator
         screenProps={this.state}/>
-      // <View style={styles.container}>
-      //   <Hotels hotels={this.state.hotels}/>
-      // </View>
     );
   }
 }
