@@ -7,14 +7,12 @@
 //
 
 import Foundation
-// tag::import-cbl[]
 import CouchbaseLiteSwift
-// end::import-cbl[]
 
-// tag::hotel-finder-bridge[]
 @objc (HotelFinderBridge)
 class HotelFinderBridge: NSObject {
   
+  // tag::lazy-database[]
   lazy var database: Database = {
     let path = Bundle.main.path(forResource: "travel-sample", ofType: "cblite2")!
     if !Database.exists(withName: "travel-sample") {
@@ -32,6 +30,7 @@ class HotelFinderBridge: NSObject {
       fatalError("Could not copy database")
     }
   }()
+  // end::lazy-database[]
   
   func createIndexes(_ database: Database) {
     do {
@@ -41,6 +40,7 @@ class HotelFinderBridge: NSObject {
     }
   }
   
+  // tag::bookmark-method-swift[]
   @objc func bookmarkHotel(_ id: Int) {
     print("Bookmark hotel :: \(id)");
     do {
@@ -55,6 +55,7 @@ class HotelFinderBridge: NSObject {
       print(error)
     }
   }
+  // end::bookmark-method-swift[]
   
   @objc func queryHotel(_ id: String, _ callback: @escaping ([AnyHashable : Any]) -> Void)  {
     let document = self.database.document(withID: id)
@@ -62,6 +63,7 @@ class HotelFinderBridge: NSObject {
     callback(dictionary)
   }
   
+  // tag::unbookmark-method-swift[]
   @objc func unbookmarkHotel(_ id: Int) {
     print("Bookmark hotel :: \(id)");
     do {
@@ -80,6 +82,7 @@ class HotelFinderBridge: NSObject {
       print(error)
     }
   }
+  // end::unbookmark-method-swift[]
   
   func fetchGuestBookmarkDocumentFromDB(_ db:Database) throws ->Document? {
     let searchQuery = QueryBuilder
@@ -123,6 +126,7 @@ class HotelFinderBridge: NSObject {
   }
   // end::query-bookmarked-hotels[]
   
+  // tag::bookmark-list-method-swift[]
   @objc func queryBookmarkedHotelsDocs(_ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
     let query = QueryBuilder
       .select(SelectResult.all())
@@ -148,7 +152,9 @@ class HotelFinderBridge: NSObject {
     }
     callback([result])
   }
+  // end::bookmark-list-method-swift[]
   
+  // tag::search-hotels-method-impl[]
   @objc func searchHotels(_ descriptionText: String?, withLocation locationText: String = "", _ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
     
     let locationExpression = Expression.property("country").like(Expression.string("%\(locationText)%"))
@@ -179,6 +185,6 @@ class HotelFinderBridge: NSObject {
     }
     callback([hotels])
   }
+  // end::search-hotels-method-impl[]
   
 }
-// end::hotel-finder-bridge[]

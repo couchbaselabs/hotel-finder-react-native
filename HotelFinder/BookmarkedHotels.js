@@ -30,13 +30,21 @@ export default class BookmarkedHotels extends React.Component {
     this.state = {
       bookmarkedHotels: [],
     };
-
-    this.queryBookmarkedHotels();
+  }
+  componentDidMount() {
+    /** Method for detecting when the user returns to this screen.
+     * react navigation docs: https://reactnavigation.org/docs/en/navigation-prop.html#addlistener-subscribe-to-updates-to-navigation-lifecycle
+     */
+    this.props.navigation.addListener('willFocus', status => {
+      this.queryBookmarkedHotels();
+    });
   }
   queryBookmarkedHotels() {
+    // tag::bookmark-list-method-js[]
     HotelFinderBridge.queryBookmarkedHotelsDocs(hotels => {
       this.setState({bookmarkedHotels: hotels});
     });
+    // end::bookmark-list-method-js[]
   }
   unbookmarkHotel(hotelId) {
     HotelFinderBridge.unbookmarkHotel(hotelId);

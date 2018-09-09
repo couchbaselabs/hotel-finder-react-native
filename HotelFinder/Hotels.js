@@ -40,21 +40,28 @@ export default class Hotels extends React.Component {
 
     this.queryBookmarkedHotels();
   }
+  // tag::search-hotels-js[]
   queryBookmarkedHotels() {
     HotelFinderBridge.queryBookmarkedHotels(hotels => {
       if (hotels.length > 0) {
         this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
       }
     });
+
   }
+  // end::search-hotels-js[]
+  // tag::bookmark-method-js[]
   bookmarkHotel(hotelId) {
     HotelFinderBridge.bookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
   }
+  // end::bookmark-method-js[]
+  // tag::unbookmark-method-js[]
   unbookmarkHotel(hotelId) {
     HotelFinderBridge.unbookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
   }
+  // end::unbookmark-method-js[]
   isBookmarkedIcon(hotel) {
     if (this.isBookmarked(hotel)) {
       return (

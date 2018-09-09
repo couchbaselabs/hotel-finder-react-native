@@ -7,20 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-// tag::rct-extern-module[]
 #import "React/RCTBridgeModule.h"
 
 @interface RCT_EXTERN_MODULE(HotelFinderBridge, NSObject)
 RCT_EXTERN_METHOD(queryHotel:(NSString *)id)
 RCT_EXTERN_METHOD(queryBookmarkedHotels:(RCTResponseSenderBlock)callback)
+// tag::bookmark-list-signature[]
 RCT_EXTERN_METHOD(queryBookmarkedHotelsDocs:(RCTResponseSenderBlock)callback)
+// end::bookmark-list-signature[]
+// tag::bookmark-method-signature[]
 RCT_EXTERN_METHOD(bookmarkHotel:(NSInteger *)id)
+// end::bookmark-method-signature[]
+// tag::unbookmark-method-signature[]
 RCT_EXTERN_METHOD(unbookmarkHotel:(NSInteger *)id)
+// end::unbookmark-method-signature[]
+// tag::search-hotels-method-signature[]
 RCT_EXTERN_METHOD(searchHotels:(NSString *)descriptionText withLocation:(NSString *)locationText :(RCTResponseSenderBlock)callback)
+// end::search-hotels-method-signature[]
 
 + (BOOL)requiresMainQueueSetup
 {
   return YES;
 }
 @end
-// end::rct-entern-module[]
