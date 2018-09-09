@@ -70,20 +70,11 @@ The next step is to import the Couchbase Lite framework in your project.
 
 === JavaScript Setup
 
-. Open *HotelFinder/App.js*.
-. Insert the following at the top of the file.
+. Add the following at the top of *HotelFinder/Hotels.js* and *HotelFinder/BookmarkedHotels.js*.
 +
 [source,swift]
 ----
 include::HotelFinder/App.js[tag=import-statement,indent=0]
-----
-. Call the `HotelFinderBridge.openDatabase` method in the component's `render` method.
-+
-[source,swift]
-----
-@objc func openDatabase() {
-
-}
 ----
 
 == Couchbase Lite Setup
@@ -136,17 +127,20 @@ include::{snippet}/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=
 ----
 include::HotelFinder/Hotels.js[tag=search-hotels-js,indent=0]
 ----
-. Build & run. You should now see the list of hotels on the screen after clicking the *Lookup* button.
+. Build & run.
+Enter "UK" in the location input field.
+Press the *Lookup* button.
+You should now see a list of hotels in the result.
 
-== Bookmark
+== Bookmark Hotel
 
-. Insert a new method signature in `RCTBridge.m`.
+. Insert a new method signature in *RCTBridge.m*.
 +
 [source,objectivec]
 ----
 include::{snippet}/RCTBridge.m[tag=bookmark-method-signature,indent=0]
 ----
-. Implement this method in `HotelFinderBridge.swift`.
+. Implement this method in *HotelFinderBridge.swift*.
 +
 [source,swift]
 ----
@@ -162,7 +156,28 @@ include::HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
 You should now be able to swipe a table view row and bookmark it.
 The bookmark icon will appear on the table view row.
 
-== Unbookmark
+== Bookmarked Hotels List
+
+. Insert a new method signature in *RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{snippet}/RCTBridge.m[tag=bookmark-list-signature,indent=0]
+----
+. Implement this method in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
+----
+. Use this method on the Home Screen.
++
+[source,javascript]
+----
+include::HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
+----
+
+== Unbookmark Hotel
 
 . Insert a new method signature in `RCTBridge.m`.
 +
@@ -176,9 +191,9 @@ include::{snippet}/RCTBridge.m[tag=unbookmark-method-signature,indent=0]
 ----
 include::{snippet}/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
 ----
-. Use this method on the Hotels screen.
+. Call this method on the Hotels Screen (*Hotels.js*), in the `unbookmarkHotel` method.
 +
 [source,javascript]
 ----
-include::{snippet}/HotelFinderBridge.swift[tag=unbookmark-method-js,indent=0]
+include::HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
 ----
