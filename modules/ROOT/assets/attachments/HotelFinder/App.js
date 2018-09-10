@@ -12,11 +12,8 @@ import {Platform, StyleSheet, Text, View, ListView} from 'react-native';
 import {NativeModules} from 'react-native';
 let HotelFinderBridge = NativeModules.HotelFinderBridge;
 // end::import-statement[]
-// tag::stack-navigator[]
 import { StackNavigator } from 'react-navigation';
-// tag::import-hotels[]
 import Hotels from './Hotels';
-// end::import-hotels[]
 import BookmarkedHotels from './BookmarkedHotels';
 const Navigator = StackNavigator({
   BookmarkedHotels: {screen: BookmarkedHotels},
@@ -25,11 +22,9 @@ const Navigator = StackNavigator({
   {
     mode: 'modal',
   });
-// end::stack-navigator[]
 
 type Props = {};
 export default class App extends Component<Props> {
-  // tag::constructor[]
   constructor() {
     super();
 
@@ -38,7 +33,6 @@ export default class App extends Component<Props> {
       hotels: [],
     };
   }
-  // end::constructor[]
   render() {
     return (
       <Navigator
