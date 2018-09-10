@@ -1,0 +1,186 @@
+= Couchbase with React Native on iOS
+:snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
+
+In this application, you can search for hotels in a pre-built database.
+From the search results, hotels can be bookmarked and they will then appear on the home screen.
+
+== How to Complete this Guide
+
+You can download the starter project which contains all the code for the User Interface.
+The code for persisting data is missing so you will notice that the UI is responsive but doesn't display any data.
+
+In the following sections, you will learn how to use Couchbase and React's https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules API] to persist and query data from an embedded database.
+
+== Native Modules Setup
+
+Native Modules are usually created in two parts.
+Firstly on the native side and then on the JavaScript side.
+
+=== Swift/Objective-C Setup
+
+. Open a new file at *ios/HotelFinder/RCTBridge.m*.
+. Insert the following in *RCTBridge.m*.
++
+[source,swift]
+----
+#import <Foundation/Foundation.h>
+#import "React/RCTBridgeModule.h"
+
+@interface RCT_EXTERN_MODULE(HotelFinderBridge, NSObject)
+
+/* code will be added here later. */
+
++ (BOOL)requiresMainQueueSetup
+{
+  return YES;
+}
+@end
+----
+. Open a new file at *ios/HotelFinder/HotelFinderBridge.swift*.
+. Insert the following in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+import Foundation
+import CouchbaseLiteSwift
+
+@objc (HotelFinderBridge)
+class HotelFinderBridge: NSObject {
+
+	/* code will be added here later. */
+
+}
+----
+
+You are now ready to implement functionalities in Swift.
+The next step is to import the Couchbase Lite framework in your project.
+
+=== JavaScript Setup
+
+. Add the following at the top of *HotelFinder/Hotels.js* and *HotelFinder/BookmarkedHotels.js*.
++
+[source,swift]
+----
+include::HotelFinder/App.js[tag=import-statement,indent=0]
+----
+
+== Couchbase Lite Setup
+
+. Download Couchbase Lite from https://www.couchbase.com/downloads[here].
+. Unzip the folder and drag *CouchbaseLiteSwift.framework* to the Xcode project.
+. Import the Couchbase SDK in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+import CouchbaseLiteSwift
+----
+
+== Database Setup
+
+To demonstrate various query functionalities more rapidly, you will use a pre-built database that already contains some records.
+
+. Download http://google.com[travel-sample.cblite2] and drag it over the Xcode project navigator.
+. Next, you will use an instance variable to open and access the database throughout the `HotelFinderBridge` class.
+In *HotelFinderBridge.swift*, add the following between the curly braces.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=lazy-database,indent=0]
+----
+In this code, you first check if a database named "travel-sample" exists.
+And if it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
+The database is then opened and the database instance is returned.
+In the next sections, you will use this database instance to perform various operations.
+
+== Search Hotels
+
+In this section, you will add the functionality to search for hotels.
+
+. Insert a new method signature in `RCTBridge.m`.
++
+[source,swift]
+----
+include::{snippet}/RCTBridge.m[tag=search-hotels-method-signature,indent=0]
+----
+. Implement this method in `HotelFinderBridge.swift`.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=0]
+----
+. Use this method on the Hotels screen.
++
+[source,swift]
+----
+include::HotelFinder/Hotels.js[tag=search-hotels-js,indent=0]
+----
+. Build & run.
+Enter "UK" in the location input field.
+Press the *Lookup* button.
+You should now see a list of hotels in the result.
+
+== Bookmark Hotel
+
+. Insert a new method signature in *RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{snippet}/RCTBridge.m[tag=bookmark-method-signature,indent=0]
+----
+. Implement this method in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=bookmark-method-swift,indent=0]
+----
+. Use this method on the Hotels screen.
++
+[source,javascript]
+----
+include::HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
+----
+. Build & run.
+You should now be able to swipe a table view row and bookmark it.
+The bookmark icon will appear on the table view row.
+
+== Bookmarked Hotels List
+
+. Insert a new method signature in *RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{snippet}/RCTBridge.m[tag=bookmark-list-signature,indent=0]
+----
+. Implement this method in *HotelFinderBridge.swift*.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
+----
+. Use this method on the Home Screen.
++
+[source,javascript]
+----
+include::HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
+----
+
+== Unbookmark Hotel
+
+. Insert a new method signature in `RCTBridge.m`.
++
+[source,objectivec]
+----
+include::{snippet}/RCTBridge.m[tag=unbookmark-method-signature,indent=0]
+----
+. Implement this method in `HotelFinderBridge.swift`.
++
+[source,swift]
+----
+include::{snippet}/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
+----
+. Call this method on the Hotels Screen (*Hotels.js*), in the `unbookmarkHotel` method.
++
+[source,javascript]
+----
+include::HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
+----
