@@ -1,0 +1,5 @@
+name: hotel-lister
+title: Couchbase with React Native
+version: 'master'
+nav:
+- modules/ROOT/nav.adoc
