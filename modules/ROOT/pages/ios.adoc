@@ -7,9 +7,9 @@ In this tutorial, you will learn how to use Couchbase Lite in a React Native pro
 
 The sample project in this tutorial is an application that can search for hotels.
 Each hotel can be bookmarked or unbookmarked.
-The User Interface has already been implemented in the link:{attachmentsdir}/final-project.zip[starter project].
+The User Interface has already been implemented in the link:{attachmentsdir}/starter-project.zip[starter project].
 
-. Download the link:{attachmentsdir}/final-project.zip[starter project].
+. Download the link:{attachmentsdir}/starter-project.zip[starter project].
 . Unzip *starter-project.zip*.
 . Run the following commands in your Terminal.
 +
