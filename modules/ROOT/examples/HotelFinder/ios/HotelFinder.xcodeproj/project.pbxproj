@@ -49,12 +49,12 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B4672880866A4630AF51A592 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09B7316875574FA1B7DE6A4B /* FontAwesome.ttf */; };
-		BE848EA72132735B00C02CE6 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE922E2C2131431E00E0164F /* CouchbaseLiteSwift.framework */; };
-		BE848EA82132735B00C02CE6 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BE922E2C2131431E00E0164F /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BE848ED02132811B00C02CE6 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */; };
 		BE922E0421312D7E00E0164F /* RCTBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BE922E0321312D7E00E0164F /* RCTBridge.m */; };
 		BE922E2B21312F2B00E0164F /* HotelFinderBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE922E2A21312F2B00E0164F /* HotelFinderBridge.swift */; };
-		BE922E2D2131431E00E0164F /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE922E2C2131431E00E0164F /* CouchbaseLiteSwift.framework */; };
+		BEECC2D921480E0600A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
+		BEECC2DA21480E0C00A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
+		BEECC2DB21480E0C00A56036 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		E1FBD5DFBD354B688556A28A /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 475EA912DB674B75B37236CE /* SimpleLineIcons.ttf */; };
 		EBD0E9CCD192477B81D3050D /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C7D02E07EE3B4C2CABCD6BFA /* Entypo.ttf */; };
 		F58BBA67DF18411C8CA270AC /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B5D72F9562842DDBDE35153 /* Ionicons.ttf */; };
@@ -351,7 +351,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BE848EA82132735B00C02CE6 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
+				BEECC2DB21480E0C00A56036 /* CouchbaseLiteSwift.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -402,7 +402,7 @@
 		BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "travel-sample.cblite2"; path = "HotelFinder/travel-sample.cblite2"; sourceTree = "<group>"; };
 		BE922E0321312D7E00E0164F /* RCTBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTBridge.m; path = HotelFinder/RCTBridge.m; sourceTree = "<group>"; };
 		BE922E2A21312F2B00E0164F /* HotelFinderBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotelFinderBridge.swift; path = HotelFinder/HotelFinderBridge.swift; sourceTree = "<group>"; };
-		BE922E2C2131431E00E0164F /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
+		BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLiteSwift.framework; path = Frameworks/CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
 		C7916272E68F49C382D0C3C4 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		C7D02E07EE3B4C2CABCD6BFA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -420,9 +420,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BEECC2DA21480E0C00A56036 /* CouchbaseLiteSwift.framework in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
-				BE922E2D2131431E00E0164F /* CouchbaseLiteSwift.framework in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
@@ -432,8 +432,8 @@
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
-				BE848EA72132735B00C02CE6 /* CouchbaseLiteSwift.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
+				BEECC2D921480E0600A56036 /* CouchbaseLiteSwift.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				2AB6259547174C0B8E4B4C0F /* libRNVectorIcons.a in Frameworks */,
 			);
@@ -608,8 +608,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */,
 				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				BE922E2C2131431E00E0164F /* CouchbaseLiteSwift.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1370,6 +1370,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1398,6 +1399,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
