@@ -8,10 +8,6 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, ListView} from 'react-native';
-// tag::import-statement[]
-import {NativeModules} from 'react-native';
-let HotelFinderBridge = NativeModules.HotelFinderBridge;
-// end::import-statement[]
 import { StackNavigator } from 'react-navigation';
 import Hotels from './Hotels';
 import BookmarkedHotels from './BookmarkedHotels';
