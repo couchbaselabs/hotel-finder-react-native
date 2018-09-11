@@ -40,7 +40,7 @@ export default class Hotels extends React.Component {
 
     this.queryBookmarkedHotels();
   }
-  // tag::search-hotels-js[]
+  // tag::bookmarked-hotels-js[]
   queryBookmarkedHotels() {
     HotelFinderBridge.queryBookmarkedHotels(hotels => {
       if (hotels.length > 0) {
@@ -49,19 +49,20 @@ export default class Hotels extends React.Component {
     });
 
   }
-  // end::search-hotels-js[]
-  // tag::bookmark-method-js[]
+  // end::bookmarked-hotels-js[]
+
   bookmarkHotel(hotelId) {
+    // tag::bookmark-method-js[]
     HotelFinderBridge.bookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
+    // end::bookmark-method-js[]
   }
-  // end::bookmark-method-js[]
-  // tag::unbookmark-method-js[]
   unbookmarkHotel(hotelId) {
+    // tag::unbookmark-method-js[]
     HotelFinderBridge.unbookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
+    // end::unbookmark-method-js[]
   }
-  // end::unbookmark-method-js[]
   isBookmarkedIcon(hotel) {
     if (this.isBookmarked(hotel)) {
       return (
@@ -107,9 +108,11 @@ export default class Hotels extends React.Component {
     }
   }
   onChangeText(descriptionText, locationText) {
+    // tag::search-hotels-js[]
     HotelFinderBridge.searchHotels(descriptionText, locationText, hotels => {
       this.setState({hotels: hotels})
     });
+    // end::search-hotels-js[]
   }
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
