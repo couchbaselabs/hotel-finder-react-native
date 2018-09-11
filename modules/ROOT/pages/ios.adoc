@@ -61,7 +61,7 @@ The next step is to import the Couchbase Lite framework in your project.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/App.js[tag=import-statement,indent=0]
+include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
 ----
 
 == Couchbase Lite Setup
@@ -85,7 +85,7 @@ In *HotelFinderBridge.swift*, add the following between the curly braces.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=lazy-database,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=lazy-database,indent=0]
 ----
 In this code, you first check if a database named "travel-sample" exists.
 And if it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
@@ -98,21 +98,21 @@ In this section, you will add the functionality to search for hotels.
 
 . Insert a new method signature in `RCTBridge.m`.
 +
-[source,swift]
+[source,objectivec]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=search-hotels-method-signature,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=search-hotels-method-signature,indent=0]
 ----
 . Implement this method in `HotelFinderBridge.swift`.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=0]
 ----
 . Use this method on the Hotels screen.
 +
-[source,swift]
+[source,javascript]
 ----
-include::../assets/attachments/HotelFinder/Hotels.js[tag=search-hotels-js,indent=0]
+include::{examplesdir}/HotelFinder/Hotels.js[tag=search-hotels-js,indent=0]
 ----
 . Build & run.
 Enter "UK" in the location input field.
@@ -125,19 +125,19 @@ You should now see a list of hotels in the result.
 +
 [source,objectivec]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-method-signature,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-method-signature,indent=0]
 ----
 . Implement this method in *HotelFinderBridge.swift*.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-method-swift,indent=0]
 ----
 . Use this method on the Hotels screen.
 +
 [source,javascript]
 ----
-include::../assets/attachments/HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
+include::{examplesdir}/HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
 ----
 . Build & run.
 You should now be able to swipe a table view row and bookmark it.
@@ -149,39 +149,42 @@ The bookmark icon will appear on the table view row.
 +
 [source,objectivec]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-list-signature,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-list-signature,indent=0]
 ----
 . Implement this method in *HotelFinderBridge.swift*.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
 ----
 . Use this method on the Home Screen.
 +
 [source,javascript]
 ----
-include::../assets/attachments/HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
+include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
 ----
 
 == Unbookmark Hotel
-
 
 . Insert a new method signature in `RCTBridge.m`.
 +
 [source,objectivec]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=unbookmark-method-signature,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=unbookmark-method-signature,indent=0]
 ----
 . Implement this method in `HotelFinderBridge.swift`.
 +
 [source,swift]
 ----
-include::../assets/attachments/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
 ----
 . Call this method on the Hotels Screen (*Hotels.js*), in the `unbookmarkHotel` method.
 +
 [source,javascript]
 ----
-include::../assets/attachments/HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
+include::{examplesdir}/HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
 ----
+
+== Conclusion
+
+You can download the link:{attachmentsdir}/final-project.zip[final project].
