@@ -16,6 +16,7 @@ The User Interface has already been implemented in the link:{attachmentsdir}/sta
 [source,bash]
 ----
 cd HotelFinder
+npm install -g react-native-cli
 npm install
 react-native link
 npm run start
