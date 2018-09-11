@@ -56,4 +56,4 @@ buck-out/
 *.jsbundle
 
 # Ignore CouchbaseLite folder
-ios/CouchbaseLiteSwift.framework/
+ios/Frameworks/
