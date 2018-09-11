@@ -7,10 +7,12 @@ import {
   Button,
   TouchableHighlight,
 } from 'react-native';
-import {NativeModules} from 'react-native';
 import { Icon } from 'react-native-elements';
 import Swipeout from 'rc-swipeout/lib';
+// tag::import-statement[]
+import {NativeModules} from 'react-native';
 let HotelFinderBridge = NativeModules.HotelFinderBridge;
+// end::import-statement[]
 
 export default class BookmarkedHotels extends React.Component {
   static navigationOptions = ({ navigation }) => {
