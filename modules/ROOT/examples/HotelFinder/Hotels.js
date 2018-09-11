@@ -40,17 +40,13 @@ export default class Hotels extends React.Component {
 
     this.queryBookmarkedHotels();
   }
-  // tag::bookmarked-hotels-js[]
-  queryBookmarkedHotels() {
-    HotelFinderBridge.queryBookmarkedHotels(hotels => {
-      if (hotels.length > 0) {
-        this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
-      }
+  onChangeText(descriptionText, locationText) {
+    // tag::search-hotels-js[]
+    HotelFinderBridge.searchHotels(descriptionText, locationText, hotels => {
+      this.setState({hotels: hotels})
     });
-
+    // end::search-hotels-js[]
   }
-  // end::bookmarked-hotels-js[]
-
   bookmarkHotel(hotelId) {
     // tag::bookmark-method-js[]
     HotelFinderBridge.bookmarkHotel(hotelId);
@@ -62,6 +58,15 @@ export default class Hotels extends React.Component {
     HotelFinderBridge.unbookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
     // end::unbookmark-method-js[]
+  }
+  queryBookmarkedHotels() {
+    // tag::bookmarked-hotels-js[]
+    HotelFinderBridge.queryBookmarkedHotels(hotels => {
+      if (hotels.length > 0) {
+        this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
+      }
+    });
+    // end::bookmarked-hotels-js[]
   }
   isBookmarkedIcon(hotel) {
     if (this.isBookmarked(hotel)) {
@@ -87,7 +92,6 @@ export default class Hotels extends React.Component {
     }
     return false;
   }
-
   isBookmarkedSwipeout(hotel) {
     if (this.isBookmarked(hotel)) {
       return [
@@ -106,13 +110,6 @@ export default class Hotels extends React.Component {
         }
       ]
     }
-  }
-  onChangeText(descriptionText, locationText) {
-    // tag::search-hotels-js[]
-    HotelFinderBridge.searchHotels(descriptionText, locationText, hotels => {
-      this.setState({hotels: hotels})
-    });
-    // end::search-hotels-js[]
   }
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
