@@ -1,20 +1,36 @@
 = Couchbase with React Native on iOS
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 
-In this application, you can search for hotels in a pre-built database.
-From the search results, hotels can be bookmarked and they will then appear on the home screen.
+In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
 
-== How to Complete this Guide
+== How to Complete this Tutorial
 
-You can download the starter project which contains all the code for the User Interface.
-The code for persisting data is missing so you will notice that the UI is responsive but doesn't display any data.
+You can download the link:{attachmentsdir}/final-project.zip[starter project] which contains all the code for the User Interface.
 
-In the following sections, you will learn how to use Couchbase and React's https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules API] to persist and query data from an embedded database.
+. Unzip *starter-project.zip*.
+. Run the following commands in your Terminal.
++
+[source,bash]
+----
+cd HotelFinder
+npm install
+npm run start
+----
+. Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
+. Build and run.
+. You can click on the *Hotels* button to run a search query.
+The results are empty because the application is missing the code for persisting data.
+But don't worry, you will fix this in the following sections.
 
 == Native Modules Setup
 
-Native Modules are usually created in two parts.
-Firstly on the native side and then on the JavaScript side.
+With https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules], you can call native code from the JavaScript code of your React Native application.
+This feature is useful in scenarios where it is preferable to implement certain functionalities with native code (Swift, Objective-C, C++).
+In this tutorial, you will use this feature to implement methods in Swift and call them from the JavaScript code. Those methods will do the following:
+
+- Search for terms in a Couchbase Lite database.
+- Query documents in a Couchbase Lite database.
+- Create and Update documents in a Couchbase Lite database.
 
 === Swift/Objective-C Setup
 
@@ -55,15 +71,6 @@ class HotelFinderBridge: NSObject {
 You are now ready to implement functionalities in Swift.
 The next step is to import the Couchbase Lite framework in your project.
 
-=== JavaScript Setup
-
-. Add the following at the top of *HotelFinder/Hotels.js* and *HotelFinder/BookmarkedHotels.js*.
-+
-[source,swift]
-----
-include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
-----
-
 == Couchbase Lite Setup
 
 . Download Couchbase Lite from https://www.couchbase.com/downloads[here].
@@ -96,6 +103,12 @@ In the next sections, you will use this database instance to perform various ope
 
 In this section, you will add the functionality to search for hotels.
 
+. Add the following at the top of *HotelFinder/Hotels.js* and *HotelFinder/BookmarkedHotels.js*.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
+----
 . Insert a new method signature in `RCTBridge.m`.
 +
 [source,objectivec]
@@ -108,7 +121,7 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=search-hotels
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=0]
 ----
-. Use this method on the Hotels screen.
+. Add the following to the `onChangeText` method in *Hotels.js*.
 +
 [source,javascript]
 ----
@@ -133,7 +146,7 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-meth
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-method-swift,indent=0]
 ----
-. Use this method on the Hotels screen.
+. Add the following to the `bookmarkHotel` method in *Hotel.js*.
 +
 [source,javascript]
 ----
@@ -157,7 +170,7 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-list
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
 ----
-. Use this method on the Home Screen.
+. Add the following to the `queryBookmarkedHotels` method in *BookmarkedHotels.js*.
 +
 [source,javascript]
 ----
@@ -178,7 +191,7 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=unbookmark-me
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
 ----
-. Call this method on the Hotels Screen (*Hotels.js*), in the `unbookmarkHotel` method.
+. Add the following to the `unbookmarkHotel` method in *Hotels.js*.
 +
 [source,javascript]
 ----
@@ -187,4 +200,5 @@ include::{examplesdir}/HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
 
 == Conclusion
 
-You can download the link:{attachmentsdir}/final-project.zip[final project].
+Well done, you learned how to import Couchbase Lite in a React Native project to add search and persistence functionalities to your application!
+You can find a working copy of the end result in the link:{attachmentsdir}/final-project.zip[final project] zip file.
