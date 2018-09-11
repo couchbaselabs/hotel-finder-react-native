@@ -17,6 +17,7 @@ The User Interface has already been implemented in the link:{attachmentsdir}/sta
 ----
 cd HotelFinder
 npm install
+react-native link
 npm run start
 ----
 . Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
