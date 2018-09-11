@@ -79,7 +79,7 @@ import CouchbaseLiteSwift
 
 To demonstrate various query functionalities more rapidly, you will use a pre-built database that already contains some records.
 
-. Download http://google.com[travel-sample.cblite2] and drag it over the Xcode project navigator.
+. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
 . Next, you will use an instance variable to open and access the database throughout the `HotelFinderBridge` class.
 In *HotelFinderBridge.swift*, add the following between the curly braces.
 +
