@@ -1,12 +1,18 @@
-= Couchbase with React Native on iOS
+= Couchbase Lite with React Native on iOS
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 
 In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
 
-== How to Complete this Tutorial
-
 The sample project in this tutorial is an application that can search for hotels.
 Each hotel can be bookmarked or unbookmarked.
+
+image::https://via.placeholder.com/700x300?text=App+Screenshots+Placeholder[]
+
+In this application, the User Interface is written in JavaScript and Data Persistence is written in Swift with Couchbase Lite's API.
+This architecture allows you to write the User Interface code once for both iOS and Android whilst keeping the benefits of using Couchbase Lite for data management.
+
+== How to Complete this Tutorial
+
 The User Interface has already been implemented in the link:{attachmentsdir}/starter-project.zip[starter project].
 
 . Download the link:{attachmentsdir}/starter-project.zip[starter project].
@@ -30,9 +36,10 @@ You will fix this in the following sections.
 
 == Native Modules Setup
 
-With https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules], you can call native code from the JavaScript code of your React Native application.
-This feature is useful in scenarios where it is preferable to implement functionalities with native code (Swift, Objective-C, C++).
-In this tutorial, you will use this feature to implement methods in Swift and call them from the JavaScript code. Those methods will do the following:
+With https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules], you can write native code and have access to it from JavaScript.
+It is helpful when an app needs access to native APIs, and React Native doesn't have a corresponding module yet.
+In this tutorial, you will use the Native Modules API to implement methods in Swift and call them from the JavaScript code.
+These methods will do the following:
 
 - Search for terms in a Couchbase Lite database.
 - Query documents in a Couchbase Lite database.
@@ -40,7 +47,7 @@ In this tutorial, you will use this feature to implement methods in Swift and ca
 
 === Swift/Objective-C Setup
 
-. Open a new file at *ios/HotelFinder/RCTBridge.m*.
+. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *RCTBridge.m*.
 . Insert the following in *RCTBridge.m*.
 +
 [source,swift]
