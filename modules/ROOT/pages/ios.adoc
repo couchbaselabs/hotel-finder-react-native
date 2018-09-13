@@ -110,12 +110,16 @@ import CouchbaseLiteSwift
 
 == Database Setup
 
-To demonstrate various query functionalities more rapidly, you will use a pre-built database that already contains some records.
-This database needs to be added to the Xcode project.
+In our example, we will start with a pre-built Couchbase Lite database that contains a bunch of documents.
+We will make our queries against the documents in this database.
+Note that in a real world application, the data could be synced down from other Couchbase Lite clients or from Sync Gateway in the cloud.
+
+The pre-built database needs to be added to the Xcode project.
 
 . Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
+Make sure to select the *Copy items if needed* checkbox.
 . Next, you will use an instance variable to open and access the database.
-In *HotelFinderBridge.swift*, add the following to the `HotelFinderBridge` class.
+In *HotelFinderBridge.swift*, replace the `/* code will be added here later. */` comment with the following lines.
 +
 [source,swift]
 ----
