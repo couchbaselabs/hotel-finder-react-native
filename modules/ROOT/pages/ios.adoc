@@ -13,7 +13,8 @@ This architecture allows you to write the User Interface code once for both iOS 
 
 == How to Complete this Tutorial
 
-The User Interface has already been implemented in the link:{attachmentsdir}/starter-project.zip[starter project].
+*The User Interface has already been implemented in the starter project.
+You will add the code to persist and query data.*
 
 . Download the link:{attachmentsdir}/starter-project.zip[starter project].
 . Unzip *starter-project.zip*.
@@ -27,12 +28,22 @@ npm install
 react-native link
 npm run start
 ----
+The `npm run start` command runs in the background.
+It starts a web server to bundle and serve the JavaScript code to the application.
+You should see the following in the output.
++
+[source,bash]
+----
+Metro Bundler ready.
+
+Loading dependency graph...
+----
 . Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
 . Build and run.
 . You can click on the *Hotels* button to run a search query.
 But the result of the query is empty because the application is missing the code to persist data.
 
-You will fix this in the following sections.
+In the next section, you will setup the Native Module interface which is the first step for establishing communication between native code and JavaScript.
 
 == Native Modules Setup
 
