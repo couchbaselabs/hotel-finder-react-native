@@ -76,13 +76,12 @@ These methods will do the following:
 }
 @end
 ----
-. Open a new file at *ios/HotelFinder/HotelFinderBridge.swift*.
+. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinderBridge.swift*.
 . Insert the following in *HotelFinderBridge.swift*.
 +
 [source,swift]
 ----
 import Foundation
-import CouchbaseLiteSwift
 
 @objc (HotelFinderBridge)
 class HotelFinderBridge: NSObject {
@@ -99,6 +98,9 @@ The next step is to import the Couchbase Lite framework in your project.
 
 . Download Couchbase Lite from https://www.couchbase.com/downloads[here].
 . Unzip the file and drag *CouchbaseLiteSwift.framework* over the Xcode project navigator.
+. Navigate to *Project > General > Embedded Binary* and drag *CouchbaseLiteSwift.framework* over to this section.
++
+image::https://via.placeholder.com/700x200?text=Drag+To+Embedded+Frameworks[]
 . Import the Swift framework in *HotelFinderBridge.swift*.
 +
 [source,swift]
