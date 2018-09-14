@@ -50,7 +50,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B4672880866A4630AF51A592 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09B7316875574FA1B7DE6A4B /* FontAwesome.ttf */; };
 		BE848ED02132811B00C02CE6 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */; };
-		BE922E0421312D7E00E0164F /* RCTBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BE922E0321312D7E00E0164F /* RCTBridge.m */; };
+		BE922E0421312D7E00E0164F /* HotelFinder-RCTBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */; };
 		BE922E2B21312F2B00E0164F /* HotelFinderNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */; };
 		BEECC2D921480E0600A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
 		BEECC2DA21480E0C00A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
@@ -400,7 +400,7 @@
 		8502AC4A8CC147938690BCE2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
 		BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "travel-sample.cblite2"; path = "HotelFinder/travel-sample.cblite2"; sourceTree = "<group>"; };
-		BE922E0321312D7E00E0164F /* RCTBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = RCTBridge.m; path = HotelFinder/RCTBridge.m; sourceTree = "<group>"; };
+		BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "HotelFinder-RCTBridge.m"; path = "HotelFinder/HotelFinder-RCTBridge.m"; sourceTree = "<group>"; };
 		BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotelFinderNative.swift; path = HotelFinder/HotelFinderNative.swift; sourceTree = "<group>"; };
 		BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLiteSwift.framework; path = Frameworks/CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
 		C7916272E68F49C382D0C3C4 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -555,7 +555,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				BE922E0321312D7E00E0164F /* RCTBridge.m */,
+				BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */,
 				BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */,
 			);
 			name = HotelFinder;
@@ -1253,7 +1253,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE922E0421312D7E00E0164F /* RCTBridge.m in Sources */,
+				BE922E0421312D7E00E0164F /* HotelFinder-RCTBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				BE922E2B21312F2B00E0164F /* HotelFinderNative.swift in Sources */,
