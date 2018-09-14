@@ -7,14 +7,17 @@ import {
   TouchableHighlight,
   Button,
 } from 'react-native';
-import { NativeModules } from 'react-native';
+
 import {
   Icon,
   SearchBar,
   Button as ElementsButton
 } from 'react-native-elements';
 import Swipeout from 'rc-swipeout/lib';
+// tag::import-statement[]
+import { NativeModules } from 'react-native';
 let HotelFinderNative = NativeModules.HotelFinderNative;
+// end::import-statement[]
 
 export default class Hotels extends React.Component {
   static navigationOptions = ({ navigation }) => {

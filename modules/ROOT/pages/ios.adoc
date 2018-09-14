@@ -66,7 +66,7 @@ These methods will do the following:
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 
-@interface RCT_EXTERN_MODULE(HotelFinderBridge, NSObject)
+@interface RCT_EXTERN_MODULE(HotelFinderNative, NSObject)
 
 /* code will be added here later. */
 
@@ -76,15 +76,15 @@ These methods will do the following:
 }
 @end
 ----
-. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinderBridge.swift*.
-. Insert the following in *HotelFinderBridge.swift*.
+. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinderNative.swift*.
+. Insert the following in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
 import Foundation
 
-@objc (HotelFinderBridge)
-class HotelFinderBridge: NSObject {
+@objc (HotelFinderNative)
+class HotelFinderNative: NSObject {
 
 	/* code will be added here later. */
 
@@ -101,7 +101,7 @@ The next step is to import the Couchbase Lite framework in your project.
 . Navigate to *Project > General > Embedded Binary* and drag *CouchbaseLiteSwift.framework* over to this section.
 +
 image::https://via.placeholder.com/700x200?text=Drag+To+Embedded+Frameworks[]
-. Import the Swift framework in *HotelFinderBridge.swift*.
+. Import the Swift framework in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
@@ -119,11 +119,11 @@ The pre-built database needs to be added to the Xcode project.
 . Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
 Make sure to select the *Copy items if needed* checkbox.
 . Next, you will use an instance variable to open and access the database.
-In *HotelFinderBridge.swift*, replace the `/* code will be added here later. */` comment with the following lines.
+In *HotelFinderNative.swift*, replace the `/* code will be added here later. */` comment with the following lines.
 +
 [source,swift]
 ----
-include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=lazy-database,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=lazy-database,indent=0]
 ----
 In this code, you first check if a database named "travel-sample" exists.
 If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
@@ -137,9 +137,9 @@ In this section, you will add the functionality to search for hotels.
 
 . Add the following to the top of *HotelFinder/Hotels.js*.
 +
-[source,swift]
+[source,javascript]
 ----
-include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
+include::{examplesdir}/HotelFinder/Hotels.js[tag=import-statement,indent=0]
 ----
 . Next, you must implement the new method in the `HotelFinderNative` module before it can be accessed in JavaScript.
 Insert a new method signature in *RCTBridge.m*.
@@ -149,11 +149,11 @@ Insert a new method signature in *RCTBridge.m*.
 include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=search-hotels-method-signature,indent=0]
 ----
 `RCT_EXPORT_METHOD()` is a React Native macro to specify that this method must be exported to JavaScript.
-. Implement this method in *HotelFinderBridge.swift*.
+. Implement this method in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
-include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=search-hotels-method-impl,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=search-hotels-method-impl,indent=0]
 ----
 . Add the following to the `onChangeText` method in *Hotels.js*.
 +
@@ -175,11 +175,11 @@ image::https://via.placeholder.com/300x400?text=Demo+Search+Results[]
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-method-signature,indent=0]
 ----
-. Implement this method in *HotelFinderBridge.swift*.
+. Implement this method in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
-include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=bookmark-method-swift,indent=0]
 ----
 . Add the following to the `bookmarkHotel` method in *Hotel.js*.
 +
@@ -189,23 +189,30 @@ include::{examplesdir}/HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
 ----
 . Build & run.
 . You can now swipe a table view row to bookmark a hotel.
++
+image::https://via.placeholder.com/300x400?text=Demo+Swipe+Row[]
 
 In the following section, you will query the bookmarked hotels to display them on the first screen.
 
 == Bookmarked Hotels List
 
 . Add the following to the top of *HotelFinder/BookmarkedHotels.js*.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
+----
 . Insert a new method signature in *RCTBridge.m*.
 +
 [source,objectivec]
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=bookmark-list-signature,indent=0]
 ----
-. Implement this method in *HotelFinderBridge.swift*.
+. Implement this method in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
-include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=bookmark-list-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=bookmark-list-method-swift,indent=0]
 ----
 . Add the following to the `queryBookmarkedHotels` method in *BookmarkedHotels.js*.
 +
@@ -214,7 +221,9 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=b
 include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
 ----
 . Build and run.
-. You can now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section.
+. You can now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section show up on the Bookmarked hotels screen.
++
+image::https://via.placeholder.com/300x400?text=Demo+Bookmarked+List[]
 
 ////
 == Unbookmark Hotel
@@ -225,11 +234,11 @@ include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=bookmark-list-method-
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=unbookmark-method-signature,indent=0]
 ----
-. Implement this method in `HotelFinderBridge.swift`.
+. Implement this method in `HotelFinderNative.swift`.
 +
 [source,swift]
 ----
-include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderBridge.swift[tag=unbookmark-method-swift,indent=0]
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=unbookmark-method-swift,indent=0]
 ----
 . Add the following to the `unbookmarkHotel` method in *Hotels.js*.
 +
