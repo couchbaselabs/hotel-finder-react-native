@@ -1,16 +1,20 @@
 #!/usr/bin/env bash
+OUTPUT_FILE=${1}
 
-echo "Temporary folder..."
-mkdir final-project
-cp -R HotelFinder final-project/
-echo "Clean..."
-rm -rf final-project/HotelFinder/node_modules/
-rm -rf final-project/HotelFinder/ios/Frameworks/CouchbaseLiteSwift.framework
-echo "Zipping..."
-ditto -c -k --sequesterRsrc --keepParent "final-project" "final-project.zip"
-echo "Copy..."
-cp final-project.zip ../assets/attachments/starter-project.zip
-echo "Delete..."
-rm -rf final-project
-rm final-project.zip
-
+if [[ ! -z ${1} ]]; then
+		echo "Temporary folder..."
+		mkdir $OUTPUT_FILE
+		cp -R HotelFinder "${OUTPUT_FILE}/"
+		echo "Clean..."
+		rm -rf "${OUTPUT_FILE}/HotelFinder/node_modules/"
+		rm -rf "${OUTPUT_FILE}/HotelFinder/ios/Frameworks/CouchbaseLiteSwift.framework"
+		echo "Zipping..."
+		ditto -c -k --sequesterRsrc --keepParent "${OUTPUT_FILE}" "${OUTPUT_FILE}.zip"
+		echo "Copy..."
+		cp "${OUTPUT_FILE}.zip" "../assets/attachments/${OUTPUT_FILE}.zip"
+		echo "Delete..."
+		rm -rf $OUTPUT_FILE
+		rm "${OUTPUT_FILE}.zip"
+	else
+		echo "Error: you must provide the output file as an argument."
+fi
