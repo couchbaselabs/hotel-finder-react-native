@@ -128,6 +128,15 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=l
 In this code, you first check if a database named "travel-sample" exists.
 If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
 The database is then opened and the instance returned.
+The `createIndexes` method will be implemented in the next step.
+. In *HotelFinderNative.swift*, add the following method.
+This method creates the Full-Text Search index on the `description` property.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=create-indexes,indent=0]
+----
+. Build & run. The project should build successfully.
 
 In the next sections, you will use this instance variable to perform various operations.
 
@@ -188,11 +197,12 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=b
 include::{examplesdir}/HotelFinder/Hotels.js[tag=bookmark-method-js,indent=0]
 ----
 . Build & run.
+. Click *Hotels* and search for a hotel (type "UK" in the location field for example).
 . You can now swipe a table view row to bookmark a hotel.
 +
 image::https://via.placeholder.com/300x400?text=Demo+Swipe+Row[]
 
-In the following section, you will query the bookmarked hotels to display them on the first screen.
+In the next section, you will query the bookmarked hotels to display them on the first screen.
 
 == Bookmarked Hotels List
 

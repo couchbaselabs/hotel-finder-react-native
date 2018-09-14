@@ -32,6 +32,7 @@ class HotelFinderNative: NSObject {
   }()
   // end::lazy-database[]
   
+  // tag::create-indexes[]
   func createIndexes(_ database: Database) {
     do {
       try database.createIndex(IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("description")).ignoreAccents(false), withName: "descFTSIndex")
@@ -39,6 +40,7 @@ class HotelFinderNative: NSObject {
       print(error)
     }
   }
+  // end::create-indexes[]
   
   // tag::bookmark-method-swift[]
   @objc func bookmarkHotel(_ id: Int) {
