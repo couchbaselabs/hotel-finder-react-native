@@ -141,12 +141,14 @@ In this section, you will add the functionality to search for hotels.
 ----
 include::{examplesdir}/HotelFinder/BookmarkedHotels.js[tag=import-statement,indent=0]
 ----
-. Insert a new method signature in *RCTBridge.m*.
+. Next, you must implement the new method in the `HotelFinderNative` module before it can be accessed in JavaScript.
+Insert a new method signature in *RCTBridge.m*.
 +
 [source,objectivec]
 ----
 include::{examplesdir}/HotelFinder/ios/HotelFinder/RCTBridge.m[tag=search-hotels-method-signature,indent=0]
 ----
+`RCT_EXPORT_METHOD()` is a React Native macro to specify that this method must be exported to JavaScript.
 . Implement this method in *HotelFinderBridge.swift*.
 +
 [source,swift]
@@ -162,6 +164,8 @@ include::{examplesdir}/HotelFinder/Hotels.js[tag=search-hotels-js,indent=0]
 . Build & run.
 . Enter "UK" in the location input field and press the *Lookup* button.
 You should now see a list of hotels in the search result.
++
+image::https://via.placeholder.com/300x400?text=Demo+Search+Results[]
 
 == Bookmark Hotel
 
