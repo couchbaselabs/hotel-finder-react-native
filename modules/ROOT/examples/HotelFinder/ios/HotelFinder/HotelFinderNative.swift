@@ -10,7 +10,7 @@ import Foundation
 import CouchbaseLiteSwift
 
 @objc (HotelFinderBridge)
-class HotelFinderBridge: NSObject {
+class HotelFinderNative: NSObject {
   
   // tag::lazy-database[]
   lazy var database: Database = {

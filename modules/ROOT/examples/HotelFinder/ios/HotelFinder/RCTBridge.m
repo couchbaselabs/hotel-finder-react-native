@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "React/RCTBridgeModule.h"
 
-@interface RCT_EXTERN_MODULE(HotelFinderBridge, NSObject)
+@interface RCT_EXTERN_MODULE(HotelFinderNative, NSObject)
 RCT_EXTERN_METHOD(queryHotel:(NSString *)id)
 RCT_EXTERN_METHOD(queryBookmarkedHotels:(RCTResponseSenderBlock)callback)
 // tag::bookmark-list-signature[]
