@@ -14,7 +14,7 @@ import {
   Button as ElementsButton
 } from 'react-native-elements';
 import Swipeout from 'rc-swipeout/lib';
-let HotelFinderBridge = NativeModules.HotelFinderBridge;
+let HotelFinderNative = NativeModules.HotelFinderNative;
 
 export default class Hotels extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -42,26 +42,26 @@ export default class Hotels extends React.Component {
   }
   onChangeText(descriptionText, locationText) {
     // tag::search-hotels-js[]
-    HotelFinderBridge.searchHotels(descriptionText, locationText, hotels => {
+    HotelFinderNative.searchHotels(descriptionText, locationText, hotels => {
       this.setState({hotels: hotels})
     });
     // end::search-hotels-js[]
   }
   bookmarkHotel(hotelId) {
     // tag::bookmark-method-js[]
-    HotelFinderBridge.bookmarkHotel(hotelId);
+    HotelFinderNative.bookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
     // end::bookmark-method-js[]
   }
   unbookmarkHotel(hotelId) {
     // tag::unbookmark-method-js[]
-    HotelFinderBridge.unbookmarkHotel(hotelId);
+    HotelFinderNative.unbookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
     // end::unbookmark-method-js[]
   }
   queryBookmarkedHotels() {
     // tag::bookmarked-hotels-js[]
-    HotelFinderBridge.queryBookmarkedHotels(hotels => {
+    HotelFinderNative.queryBookmarkedHotels(hotels => {
       if (hotels.length > 0) {
         this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
       }

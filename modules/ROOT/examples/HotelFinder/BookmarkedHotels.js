@@ -11,7 +11,7 @@ import { Icon } from 'react-native-elements';
 import Swipeout from 'rc-swipeout/lib';
 // tag::import-statement[]
 import {NativeModules} from 'react-native';
-let HotelFinderBridge = NativeModules.HotelFinderBridge;
+let HotelFinderNative = NativeModules.HotelFinderNative;
 // end::import-statement[]
 
 export default class BookmarkedHotels extends React.Component {
@@ -43,13 +43,13 @@ export default class BookmarkedHotels extends React.Component {
   }
   queryBookmarkedHotels() {
     // tag::bookmark-list-method-js[]
-    HotelFinderBridge.queryBookmarkedHotelsDocs(hotels => {
+    HotelFinderNative.queryBookmarkedHotelsDocs(hotels => {
       this.setState({bookmarkedHotels: hotels});
     });
     // end::bookmark-list-method-js[]
   }
   unbookmarkHotel(hotelId) {
-    HotelFinderBridge.unbookmarkHotel(hotelId);
+    HotelFinderNative.unbookmarkHotel(hotelId);
     this.queryBookmarkedHotels();
   }
   render() {
