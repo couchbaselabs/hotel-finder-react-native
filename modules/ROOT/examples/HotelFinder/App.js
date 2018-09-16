@@ -9,8 +9,8 @@
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View, ListView} from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import Hotels from './Hotels';
-import BookmarkedHotels from './BookmarkedHotels';
+import Hotels from './ui/Hotels';
+import BookmarkedHotels from './ui/BookmarkedHotels';
 const Navigator = StackNavigator({
   BookmarkedHotels: {screen: BookmarkedHotels},
   Hotels: {screen: Hotels},
