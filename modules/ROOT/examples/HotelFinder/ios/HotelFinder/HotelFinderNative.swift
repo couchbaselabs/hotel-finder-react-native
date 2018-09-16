@@ -46,7 +46,7 @@ class HotelFinderNative: NSObject {
   @objc func bookmarkHotel(_ id: Int) {
     print("Bookmark hotel :: \(id)");
     do {
-      var document = try fetchGuestBookmarkDocumentFromDB(self.database)
+      var document = try fetchBookmarkDocument(self.database)
       if document == nil {
         document = MutableDocument(data: ["type": "bookmarkedhotels", "hotels": [String]()])
       }
@@ -69,7 +69,7 @@ class HotelFinderNative: NSObject {
   @objc func unbookmarkHotel(_ id: Int) {
     print("Bookmark hotel :: \(id)");
     do {
-      var document = try fetchGuestBookmarkDocumentFromDB(self.database)
+      var document = try fetchBookmarkDocument(self.database)
       if document == nil {
         document = MutableDocument(data: ["type": "bookmarkedhotels", "hotels": [String]()])
       }
@@ -86,19 +86,21 @@ class HotelFinderNative: NSObject {
   }
   // end::unbookmark-method-swift[]
   
-  func fetchGuestBookmarkDocumentFromDB(_ db:Database) throws ->Document? {
+  // tag::fetch-bookmark-document[]
+  func fetchBookmarkDocument(_ db:Database) throws ->Document? {
     let searchQuery = QueryBuilder
       .select(SelectResult.expression(Meta.id))
       .from(DataSource.database(db))
-      .where(Expression.property("type")
-        .equalTo(Expression.string("bookmarkedhotels")))
+      .where(
+        Expression.property("type")
+        .equalTo(Expression.string("bookmarkedhotels"))
+      )
     
     /*
      {
-     "type" : "bookmarkedhotelss"
-     "hotels":["hotel1","hotel2"]
+        "type" : "bookmarkedhotelss"
+        "hotels":["hotel1","hotel2"]
      }
-     
      */
     
     for row in try searchQuery.execute() {
@@ -110,6 +112,7 @@ class HotelFinderNative: NSObject {
     
     return nil
   }
+  // end::fetch-bookmark-document[]
   
   // tag::query-bookmarked-hotels[]
   @objc func queryBookmarkedHotels(_ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
