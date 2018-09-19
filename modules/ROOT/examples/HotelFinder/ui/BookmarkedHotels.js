@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import Row from './Row';
 import Swipeout from 'rc-swipeout/lib';
 // tag::import-statement[]
 import {NativeModules} from 'react-native';
@@ -62,22 +63,19 @@ export default class BookmarkedHotels extends React.Component {
           enableEmptySections={true}
           style={styles.listView}
           dataSource={dataSource}
-          renderRow={(data, sectionID, rowID, highlightRow) => {
+          renderRow={(hotel, sectionID, rowID, highlightRow) => {
             return (
               <Swipeout
                 style={{flex: 1}}
                 right={[
                   {
                     text: 'Unbookmark',
-                    onPress: () => this.unbookmarkHotel(data.id),
+                    onPress: () => this.unbookmarkHotel(hotel.id),
                   }
                 ]}>
-                <View style={styles.rowContainer}>
-                  <Text style={styles.rowTitle}>
-                    {data.name}
-                  </Text>
-                  <Icon name='bookmark'/>
-                </View>
+                <Row
+                  hotel={hotel}
+                  isBookmarked={true}/>
               </Swipeout>
             )
           }}>
@@ -95,15 +93,5 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1
   },
-  rowContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  rowTitle: {
-    fontSize: 30,
-    padding: 15,
-    flex: 1,
-  },
+
 });

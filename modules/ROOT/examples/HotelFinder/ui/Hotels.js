@@ -7,12 +7,12 @@ import {
   TouchableHighlight,
   Button,
 } from 'react-native';
-
 import {
   Icon,
   SearchBar,
   Button as ElementsButton
 } from 'react-native-elements';
+import Row from './Row';
 import Swipeout from 'rc-swipeout/lib';
 // tag::import-statement[]
 import { NativeModules } from 'react-native';
@@ -101,7 +101,6 @@ export default class Hotels extends React.Component {
         {
           text: 'Unbookmark',
           onPress: () => this.unbookmarkHotel(hotel['travel-sample'].id),
-          style: {backgroundColor: 'red', color: 'white'}
         }
       ]
     } else {
@@ -109,7 +108,7 @@ export default class Hotels extends React.Component {
         {
           text: 'Bookmark',
           onPress: () => this.bookmarkHotel(hotel['travel-sample'].id),
-          style: {backgroundColor: 'blue', color: 'white'}
+          style: {backgroundColor: 'darkblue', color: 'white'}
         }
       ]
     }
@@ -126,16 +125,17 @@ export default class Hotels extends React.Component {
             this.setState({descriptionText: text});
           }}
           placeholder='Description'
-          style={{flex: 1, width: '100%'}}/>
+          style={styles.searchBar}/>
         <SearchBar
           lightTheme
           onChangeText={(text) => {
             this.setState({locationText: text});
           }}
           placeholder='Country'
-          style={{flex: 1, width: '100%'}}/>
+          style={styles.searchBar}/>
         <ElementsButton
-          backgroundColor='lightblue'
+          backgroundColor='#0cace0'
+          fontSize={20}
           onPress={() => {
             this.onChangeText(this.state.descriptionText, this.state.locationText);
           }}
@@ -149,12 +149,9 @@ export default class Hotels extends React.Component {
                 style={{flex: 1}}
                 autoClose={true}
                 right={this.isBookmarkedSwipeout(data)}>
-                <View style={styles.rowContainer}>
-                  <Text style={styles.rowTitle}>
-                    {data['travel-sample'].name}
-                  </Text>
-                  {this.isBookmarkedIcon(data)}
-                </View>
+                <Row
+                  hotel={data['travel-sample']}
+                  isBookmarked={this.isBookmarked(data)}/>
               </Swipeout>
             )
           }}
@@ -169,25 +166,12 @@ export default class Hotels extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
   },
   listView: {
     flex: 1
   },
-  rowContainer: {
+  searchBar: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-  },
-  rowTitle: {
-    fontSize: 30,
-    padding: 15,
-    flex: 1,
-  },
-  rowSubtitle: {
-    fontSize: 20,
-    padding: 15,
-    flex: 1,
+    width: '100%',
   },
 });
