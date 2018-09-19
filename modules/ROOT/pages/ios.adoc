@@ -10,7 +10,7 @@ In this tutorial, you will learn how to use Couchbase Lite in a React Native pro
 The sample project is an application that can search for hotels.
 Each hotel can be bookmarked or unbookmarked.
 
-image::https://via.placeholder.com/700x300?text=App+Screenshots+Placeholder[]
+image::home-screen.png[,50%]
 
 In this application, the User Interface is written in JavaScript and Data Persistence is written in Swift with Couchbase Lite's API.
 This architecture allows you to write the User Interface code once for both iOS and Android whilst keeping the benefits of using Couchbase Lite for data management.
@@ -120,10 +120,10 @@ The next step is to import the Couchbase Lite framework in your project.
 . Download Couchbase Lite from https://www.couchbase.com/downloads[here].
 . Unzip the file and drag *CouchbaseLiteSwift.framework* to the *Frameworks* folder in the Xcode project navigator.
 +
-image::https://via.placeholder.com/700x200?text=Drag+To+Frameworks+Folder[]
+image::drag-framework.png[]
 . Navigate to *Project > General > Embedded Binary* and drag *CouchbaseLiteSwift.framework* over the list.
 +
-image::https://via.placeholder.com/700x200?text=Drag+To+Embedded+Frameworks[]
+image::drag-embedded.png[]
 . Import the Swift framework in *HotelFinderNative.swift*.
 +
 [source,swift]
@@ -201,7 +201,7 @@ include::{examplesdir}/HotelFinder/ui/Hotels.js[tag=search-hotels-js,indent=0]
 . Enter "UK" in the location input field and press the *Lookup* button.
 You should now see a list of hotels in the search result.
 +
-image::https://via.placeholder.com/300x400?text=Demo+Search+Results[]
+image::search-hotel.gif[]
 
 == Bookmark Hotel
 
@@ -236,8 +236,9 @@ include::{examplesdir}/HotelFinder/ui/Hotels.js[tag=bookmark-method-js,indent=0]
 . Build & run.
 . Click *Hotels* and search for a hotel (type "UK" in the location field for example).
 . You can now swipe a table view row to bookmark a hotel.
+The bookmark icon is displayed.
 +
-image::https://via.placeholder.com/300x400?text=Demo+Swipe+Row[]
+image::swipe-row.gif[]
 
 In the next section, you will query the bookmarked hotels to display them on the first screen.
 
@@ -270,7 +271,7 @@ include::{examplesdir}/HotelFinder/ui/BookmarkedHotels.js[tag=bookmark-list-meth
 . Build and run.
 . You can now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section show up on the Bookmarked hotels screen.
 +
-image::https://via.placeholder.com/300x400?text=Demo+Bookmarked+List[]
+image::home-screen.png[]
 
 ////
 == Unbookmark Hotel
@@ -303,5 +304,6 @@ You can find a working copy of the end result in the link:{attachmentsdir}/final
 The final project contains a few additional functionalities.
 More specifically, the ability to:
 
+* List bookmarked hotels on the search screen.
 * Unbookmark a hotel on the home screen.
 * Unbookmark a hotel on the search screens.
