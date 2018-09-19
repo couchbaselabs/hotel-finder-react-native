@@ -11,7 +11,7 @@
 
 @interface RCT_EXTERN_MODULE(HotelFinderNative, NSObject)
 RCT_EXTERN_METHOD(queryHotel:(NSString *)id)
-RCT_EXTERN_METHOD(queryBookmarkedHotels:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(queryBookmarkedHotelIds:(RCTResponseSenderBlock)callback)
 // tag::bookmark-list-signature[]
 RCT_EXTERN_METHOD(queryBookmarkedHotelsDocs:(RCTResponseSenderBlock)callback)
 // end::bookmark-list-signature[]
