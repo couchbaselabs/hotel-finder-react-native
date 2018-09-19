@@ -38,10 +38,10 @@ export default class Hotels extends React.Component {
       descriptionText: null,
       locationText: null,
       hotels: [],
-      bookmarkedHotels: [],
+      bookmarkedHotelIds: [],
     };
 
-    this.queryBookmarkedHotels();
+    this.queryBookmarkedHotelIds();
   }
   onChangeText(descriptionText, locationText) {
     // tag::search-hotels-js[]
@@ -53,61 +53,49 @@ export default class Hotels extends React.Component {
   bookmarkHotel(hotelId) {
     // tag::bookmark-method-js[]
     HotelFinderNative.bookmarkHotel(hotelId);
-    this.queryBookmarkedHotels();
+    this.queryBookmarkedHotelIds();
     // end::bookmark-method-js[]
   }
   unbookmarkHotel(hotelId) {
     // tag::unbookmark-method-js[]
     HotelFinderNative.unbookmarkHotel(hotelId);
-    this.queryBookmarkedHotels();
+    this.queryBookmarkedHotelIds();
     // end::unbookmark-method-js[]
   }
-  queryBookmarkedHotels() {
+  queryBookmarkedHotelIds() {
     // tag::bookmarked-hotels-js[]
-    HotelFinderNative.queryBookmarkedHotels(hotels => {
-      if (hotels.length > 0) {
-        this.setState({bookmarkedHotels: hotels[0]['travel-sample'].hotels});
+    HotelFinderNative.queryBookmarkedHotelIds(hotels => {
+      console.log(hotels);
+      if (hotels) {
+        this.setState({bookmarkedHotelIds: hotels});
       }
     });
     // end::bookmarked-hotels-js[]
   }
-  isBookmarkedIcon(hotel) {
-    if (this.isBookmarked(hotel)) {
-      return (
-        <Icon name='bookmark'/>
-      )
-    } else {
-      return (
-        <View/>
-      )
-    }
-  }
   isBookmarked(hotel) {
-    if (this.state.bookmarkedHotels.length > 0) {
-      var item;
-      for (item in this.state.bookmarkedHotels) {
-        let itemId = this.state.bookmarkedHotels[item];
-        if (`hotel_${itemId}` === hotel.id) {
-          return true;
-        }
-      }
-      return false;
-    }
-    return false;
+    return this.state.bookmarkedHotelIds.indexOf(hotel['travel-sample'].id) !== -1;
   }
   isBookmarkedSwipeout(hotel) {
     if (this.isBookmarked(hotel)) {
       return [
         {
           text: 'Unbookmark',
-          onPress: () => this.unbookmarkHotel(hotel['travel-sample'].id),
+          onPress: () => {
+
+            this.unbookmarkHotel(hotel['travel-sample'].id);
+          },
         }
       ]
     } else {
       return [
         {
           text: 'Bookmark',
-          onPress: () => this.bookmarkHotel(hotel['travel-sample'].id),
+          onPress: () => {
+            let bookmarkedHotelIds = this.state.bookmarkedHotelIds;
+            bookmarkedHotelIds.push(hotel['travel-sample'].id);
+            this.setState({bookmarkedHotelIds: bookmarkedHotelIds});
+            this.bookmarkHotel(hotel['travel-sample'].id);
+          },
           style: {backgroundColor: 'darkblue', color: 'white'}
         }
       ]

@@ -31,7 +31,7 @@ export default class BookmarkedHotels extends React.Component {
     super();
 
     this.state = {
-      bookmarkedHotels: [],
+      bookmarkedHotelDocs: [],
     };
   }
   componentDidMount() {
@@ -45,7 +45,7 @@ export default class BookmarkedHotels extends React.Component {
   queryBookmarkedHotels() {
     // tag::bookmark-list-method-js[]
     HotelFinderNative.queryBookmarkedHotelsDocs(hotels => {
-      this.setState({bookmarkedHotels: hotels});
+      this.setState({bookmarkedHotelDocs: hotels});
     });
     // end::bookmark-list-method-js[]
   }
@@ -55,7 +55,7 @@ export default class BookmarkedHotels extends React.Component {
   }
   render() {
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let dataSource = ds.cloneWithRows(this.state.bookmarkedHotels);
+    let dataSource = ds.cloneWithRows(this.state.bookmarkedHotelDocs);
 
     return (
       <View style={styles.container}>
