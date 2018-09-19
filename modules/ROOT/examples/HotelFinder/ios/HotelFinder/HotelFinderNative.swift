@@ -115,7 +115,7 @@ class HotelFinderNative: NSObject {
   // end::fetch-bookmark-document[]
   
   // tag::query-bookmarked-hotels[]
-  @objc func queryBookmarkedHotels(_ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
+  @objc func queryBookmarkedHotelIds(_ callback: @escaping ([[AnyHashable]]) -> Void) {
     let query = QueryBuilder
       .select(SelectResult.all())
       .from(DataSource.database(self.database))
@@ -123,11 +123,14 @@ class HotelFinderNative: NSObject {
         Expression.property("type").equalTo(Expression.string("bookmarkedhotels"))
       )
     
-    var hotels: [[AnyHashable : Any]] = []
+    var hotelIds: [AnyHashable] = []
     for row in try! query.execute() {
-      hotels.append(row.toDictionary())
+      let hotelDoc = row.toDictionary()
+      if let documentBody = hotelDoc["travel-sample"] as? Dictionary<String,Any> {
+        hotelIds = documentBody["hotels"] as! [Int]
+      }
     }
-    callback([hotels])
+    callback([hotelIds])
   }
   // end::query-bookmarked-hotels[]
   
