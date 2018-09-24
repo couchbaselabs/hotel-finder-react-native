@@ -19,9 +19,12 @@ This architecture allows you to write the User Interface code once for both iOS 
 
 This tutorial requires the following components and versions to run successfully.
 
-* Xcode 9.4 or above
-* Swift 3.3
+* Xcode 10 or above
+* Swift 4.2
+* Couchbase Lite 2.1.1
 * Node.js 6.0 or above
+
+The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Swift
 
 == How to Complete this Tutorial
 
@@ -49,8 +52,7 @@ It is required in the https://react-native-training.github.io/react-native-eleme
 ----
 npm run start
 ----
-The `npm run start` command runs in the background.
-It starts a web server to bundle and serve the JavaScript code to the application.
+The `npm run start` command starts a web server that bundles and serves the JavaScript code to the application.
 You should see the following in the output.
 +
 [source,bash]
@@ -133,7 +135,7 @@ import CouchbaseLiteSwift
 
 == Database Setup
 
-In our example, we will start with a pre-built Couchbase Lite database that contains a bunch of documents.
+In our example, we will start with a pre-built Couchbase Lite database that contains a bunch of hotel documents.
 We will make our queries against the documents in this database.
 Note that in a real world application, the data could be synced down from other Couchbase Lite clients or from Sync Gateway in the cloud.
 
