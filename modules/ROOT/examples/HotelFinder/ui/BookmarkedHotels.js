@@ -51,7 +51,6 @@ export default class BookmarkedHotels extends React.Component {
     HotelFinderNative.queryBookmarkDocuments(err => {
       console.log(err);
     }, bookmarks => {
-      console.log(bookmarks);
       this.setState({bookmarkDocuments: bookmarks});
     });
     // end::bookmark-list-method-js[]
