@@ -59,8 +59,8 @@ export default class Hotels extends React.Component {
     // tag::unbookmark-method-js[]
     HotelFinderNative.unbookmark(hotelId, err => {
       console.log(err);
-    }, () => {
-      this.queryBookmarkIds();
+    }, bookmarkIds => {
+      this.setState({bookmarkIds: bookmarkIds});
     });
     // end::unbookmark-method-js[]
   }
@@ -68,7 +68,7 @@ export default class Hotels extends React.Component {
     // tag::bookmarked-hotels-js[]
     HotelFinderNative.queryBookmarkIds(err => {
       console.log(err);
-    },hotels => {
+    }, hotels => {
       this.setState({bookmarkIds: hotels});
     });
     // end::bookmarked-hotels-js[]
