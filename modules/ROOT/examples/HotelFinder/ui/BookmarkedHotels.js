@@ -7,7 +7,6 @@ import {
   Button,
   TouchableHighlight,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 import Row from './Row';
 import Swipeout from 'rc-swipeout/lib';
 // tag::import-statement[]
@@ -16,46 +15,58 @@ let HotelFinderNative = NativeModules.HotelFinderNative;
 // end::import-statement[]
 
 export default class BookmarkedHotels extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: 'Bookmarks',
-      headerRight: (
-        <Button
-          onPress={() => navigation.navigate('Hotels', {})}
-          title="Hotels"
-        />
-      ),
-    };
-  };
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+
+    let method = this.onNavigatorEvent.bind(this);
+    this.props.navigator.setOnNavigatorEvent(method);
 
     this.state = {
-      bookmarkedHotelDocs: [],
+      bookmarkDocuments: [],
     };
   }
+  onNavigatorEvent(event) {
+    if (event.type === 'NavBarButtonPress') {
+      /* The nav bar button is tapped */
+      this.props.navigator.push({
+        screen: 'HotelFinder.Hotels',
+        title: 'Search',
+      })
+    } else if (event.id === 'willAppear') {
+      /* The app is opening this screen */
+      this.queryBookmarkDocuments();
+    }
+  }
   componentDidMount() {
-    /** Method for detecting when the user returns to this screen.
-     * react navigation docs: https://reactnavigation.org/docs/en/navigation-prop.html#addlistener-subscribe-to-updates-to-navigation-lifecycle
-     */
-    this.props.navigation.addListener('willFocus', status => {
-      this.queryBookmarkedHotels();
+    this.props.navigator.setButtons({
+      rightButtons: [
+        {
+          title: 'Hotels',
+        }
+      ]
     });
   }
-  queryBookmarkedHotels() {
+  queryBookmarkDocuments() {
     // tag::bookmark-list-method-js[]
-    HotelFinderNative.queryBookmarkedHotelsDocs(hotels => {
-      this.setState({bookmarkedHotelDocs: hotels});
+    HotelFinderNative.queryBookmarkDocuments(err => {
+      console.log(err);
+    }, bookmarks => {
+      console.log(bookmarks);
+      this.setState({bookmarkDocuments: bookmarks});
     });
     // end::bookmark-list-method-js[]
   }
   unbookmarkHotel(hotelId) {
-    HotelFinderNative.unbookmarkHotel(hotelId);
-    this.queryBookmarkedHotels();
+    HotelFinderNative.unbookmark(hotelId, err => {
+      console.log(err);
+    }, () => {
+      this.queryBookmarkDocuments();
+    });
   }
   render() {
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-    let dataSource = ds.cloneWithRows(this.state.bookmarkedHotelDocs);
+    const ds = new ListView.DataSource(
+      {rowHasChanged: (r1, r2) => r1 !== r2});
+    let dataSource = ds.cloneWithRows(this.state.bookmarkDocuments);
 
     return (
       <View style={styles.container}>
@@ -63,18 +74,18 @@ export default class BookmarkedHotels extends React.Component {
           enableEmptySections={true}
           style={styles.listView}
           dataSource={dataSource}
-          renderRow={(hotel, sectionID, rowID, highlightRow) => {
+          renderRow={(data, sectionID, rowID, highlightRow) => {
             return (
               <Swipeout
                 style={{flex: 1}}
                 right={[
                   {
                     text: 'Unbookmark',
-                    onPress: () => this.unbookmarkHotel(hotel.id),
+                    onPress: () => this.unbookmarkHotel(`hotel_${data.id}`),
                   }
                 ]}>
                 <Row
-                  hotel={hotel}
+                  hotel={data}
                   isBookmarked={true}/>
               </Swipeout>
             )

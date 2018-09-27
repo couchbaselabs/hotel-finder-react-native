@@ -20,60 +20,61 @@ let HotelFinderNative = NativeModules.HotelFinderNative;
 // end::import-statement[]
 
 export default class Hotels extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      headerTitle: 'Hotels',
-      headerLeft: (
-        <Button
-          onPress={() => navigation.navigate('BookmarkedHotels', {})}
-          title="Close"
-        />
-      ),
-    };
-  };
   constructor() {
     super();
 
     this.state = {
       descriptionText: null,
-      locationText: null,
+      locationText: '',
       hotels: [],
-      bookmarkedHotelIds: [],
+      bookmarkIds: [],
     };
 
-    this.queryBookmarkedHotelIds();
+
+  }
+  componentWillMount() {
+    // tag::query-bookmark-ids-js[]
+    this.queryBookmarkIds();
+    // end::query-bookmark-ids-js[]
   }
   onChangeText(descriptionText, locationText) {
-    // tag::search-hotels-js[]
-    HotelFinderNative.searchHotels(descriptionText, locationText, hotels => {
-      this.setState({hotels: hotels})
+    // tag::search-js[]
+    HotelFinderNative.search(descriptionText, locationText, err => {
+      console.log(err);
+    }, hotels => {
+      this.setState({hotels: hotels});
     });
-    // end::search-hotels-js[]
+    // end::search-js[]
   }
-  bookmarkHotel(hotelId) {
+  bookmark(hotelId) {
     // tag::bookmark-method-js[]
-    HotelFinderNative.bookmarkHotel(hotelId);
-    this.queryBookmarkedHotelIds();
+    HotelFinderNative.bookmark(hotelId, err => {
+      console.log(err);
+    }, bookmarkIds => {
+      this.setState({bookmarkIds: bookmarkIds});
+    });
     // end::bookmark-method-js[]
   }
-  unbookmarkHotel(hotelId) {
+  unbookmark(hotelId) {
     // tag::unbookmark-method-js[]
-    HotelFinderNative.unbookmarkHotel(hotelId);
-    this.queryBookmarkedHotelIds();
+    HotelFinderNative.unbookmark(hotelId, err => {
+      console.log(err);
+    }, () => {
+      this.queryBookmarkIds();
+    });
     // end::unbookmark-method-js[]
   }
-  queryBookmarkedHotelIds() {
+  queryBookmarkIds() {
     // tag::bookmarked-hotels-js[]
-    HotelFinderNative.queryBookmarkedHotelIds(hotels => {
-      console.log(hotels);
-      if (hotels) {
-        this.setState({bookmarkedHotelIds: hotels});
-      }
+    HotelFinderNative.queryBookmarkIds(err => {
+      console.log(err);
+    },hotels => {
+      this.setState({bookmarkIds: hotels});
     });
     // end::bookmarked-hotels-js[]
   }
   isBookmarked(hotel) {
-    return this.state.bookmarkedHotelIds.indexOf(hotel['travel-sample'].id) !== -1;
+    return this.state.bookmarkIds.indexOf(hotel.id) !== -1;
   }
   isBookmarkedSwipeout(hotel) {
     if (this.isBookmarked(hotel)) {
@@ -81,8 +82,7 @@ export default class Hotels extends React.Component {
         {
           text: 'Unbookmark',
           onPress: () => {
-
-            this.unbookmarkHotel(hotel['travel-sample'].id);
+            this.unbookmark(hotel.id);
           },
         }
       ]
@@ -91,10 +91,7 @@ export default class Hotels extends React.Component {
         {
           text: 'Bookmark',
           onPress: () => {
-            let bookmarkedHotelIds = this.state.bookmarkedHotelIds;
-            bookmarkedHotelIds.push(hotel['travel-sample'].id);
-            this.setState({bookmarkedHotelIds: bookmarkedHotelIds});
-            this.bookmarkHotel(hotel['travel-sample'].id);
+            this.bookmark(hotel.id);
           },
           style: {backgroundColor: 'darkblue', color: 'white'}
         }
@@ -108,6 +105,7 @@ export default class Hotels extends React.Component {
     return (
       <View style={styles.container}>
         <SearchBar
+          inputStyle={styles.searchInputStyle}
           lightTheme
           onChangeText={(text) => {
             this.setState({descriptionText: text});
@@ -115,6 +113,7 @@ export default class Hotels extends React.Component {
           placeholder='Description'
           style={styles.searchBar}/>
         <SearchBar
+          inputStyle={styles.searchInputStyle}
           lightTheme
           onChangeText={(text) => {
             this.setState({locationText: text});
@@ -138,7 +137,7 @@ export default class Hotels extends React.Component {
                 autoClose={true}
                 right={this.isBookmarkedSwipeout(data)}>
                 <Row
-                  hotel={data['travel-sample']}
+                  hotel={data}
                   isBookmarked={this.isBookmarked(data)}/>
               </Swipeout>
             )
@@ -161,5 +160,9 @@ const styles = StyleSheet.create({
   searchBar: {
     flex: 1,
     width: '100%',
+  },
+  searchInputStyle: {
+    backgroundColor: 'white',
+    color: 'black',
   },
 });
