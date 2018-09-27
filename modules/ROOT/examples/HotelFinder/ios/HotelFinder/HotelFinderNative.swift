@@ -42,32 +42,29 @@ class HotelFinderNative: NSObject {
   }
   // end::create-indexes[]
   
-  // tag::bookmark-method-swift[]
-  @objc func bookmarkHotel(_ id: Int) {
-    print("Bookmark hotel :: \(id)");
+  // tag::bookmark[]
+  @objc func bookmark(_ hotelId: Int, _ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ successCallback: @escaping ([AnyHashable : Any]) -> Void) {
     do {
       var document = try fetchBookmarkDocument(self.database)
       if document == nil {
         document = MutableDocument(data: ["type": "bookmarkedhotels", "hotels": [String]()])
       }
       var mutableDocument = document!.toMutable()
-      mutableDocument.array(forKey: "hotels")!.addInt(id)
+      mutableDocument.array(forKey: "hotels")!.addInt(hotelId)
       try self.database.saveDocument(mutableDocument)
     } catch {
       print(error)
     }
   }
-  // end::bookmark-method-swift[]
+  // end::bookmark[]
   
-  @objc func queryHotel(_ id: String, _ callback: @escaping ([AnyHashable : Any]) -> Void)  {
-    let document = self.database.document(withID: id)
-    let dictionary = document!.toDictionary()
-    callback(dictionary)
+  func findOrCreateBookmarkDocument() {
+//    let query = Query
   }
   
-  // tag::unbookmark-method-swift[]
-  @objc func unbookmarkHotel(_ id: Int) {
-    print("Bookmark hotel :: \(id)");
+  // tag::unbookmark[]
+  @objc func unbookmark(_ hotelId: String, _ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ success: @escaping ([AnyHashable : Any]) -> Void) {
+    print("Bookmark hotel :: \(hotelId)");
     do {
       var document = try fetchBookmarkDocument(self.database)
       if document == nil {
@@ -76,7 +73,8 @@ class HotelFinderNative: NSObject {
       var mutableDocument = document!.toMutable()
       let bookmarkedIds = mutableDocument.array(forKey: "hotels")!.toArray()
       let newBookmarkedIds = bookmarkedIds.filter { (item) -> Bool in
-        return item as! Int != id
+//        return item != hotelId
+        return false
       }
       mutableDocument.setArray(MutableArrayObject(data: newBookmarkedIds), forKey: "hotels")
       try self.database.saveDocument(mutableDocument)
@@ -84,7 +82,7 @@ class HotelFinderNative: NSObject {
       print(error)
     }
   }
-  // end::unbookmark-method-swift[]
+  // end::unbookmark[]
   
   // tag::fetch-bookmark-document[]
   func fetchBookmarkDocument(_ db:Database) throws ->Document? {
@@ -114,8 +112,8 @@ class HotelFinderNative: NSObject {
   }
   // end::fetch-bookmark-document[]
   
-  // tag::query-bookmarked-hotels[]
-  @objc func queryBookmarkedHotelIds(_ callback: @escaping ([[AnyHashable]]) -> Void) {
+  // tag::query-ids[]
+  @objc func queryBookmarkIds(_ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ successCallback: @escaping ([[AnyHashable]]) -> Void) {
     let query = QueryBuilder
       .select(SelectResult.all())
       .from(DataSource.database(self.database))
@@ -130,12 +128,12 @@ class HotelFinderNative: NSObject {
         hotelIds = documentBody["hotels"] as! [Int]
       }
     }
-    callback([hotelIds])
+    successCallback([hotelIds])
   }
-  // end::query-bookmarked-hotels[]
+  // end::query-ids[]
   
   // tag::bookmark-list-method-swift[]
-  @objc func queryBookmarkedHotelsDocs(_ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
+  @objc func queryBookmarkDocuments(_ errorCallback: @escaping ([[[AnyHashable : Any]]]) -> Void, _ successCallback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
     let query = QueryBuilder
       .select(SelectResult.all())
       .from(DataSource.database(self.database))
@@ -149,7 +147,7 @@ class HotelFinderNative: NSObject {
       hotels.append(row.toDictionary())
     }
     guard hotels.count > 0 else {
-      callback([result])
+      successCallback([result])
       return
     }
     let hotelDoc = hotels[0]["travel-sample"]! as! Dictionary<String,Any>
@@ -158,11 +156,11 @@ class HotelFinderNative: NSObject {
       let document = self.database.document(withID: "hotel_\(hotelId)")
       result.append(document!.toDictionary())
     }
-    callback([result])
+    successCallback([result])
   }
   // end::bookmark-list-method-swift[]
   
-  // tag::search-hotels-method-impl[]
+  // tag::search[]
   @objc func searchHotels(_ descriptionText: String?, withLocation locationText: String = "", _ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
     
     let locationExpression = Expression.property("country").like(Expression.string("%\(locationText)%"))
@@ -193,6 +191,6 @@ class HotelFinderNative: NSObject {
     }
     callback([hotels])
   }
-  // end::search-hotels-method-impl[]
+  // end::search[]
   
 }
