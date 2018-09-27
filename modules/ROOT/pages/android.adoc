@@ -293,7 +293,7 @@ include::{examplesdir}/HotelFinder/ui/Bookmarks.js[tag=query-bookmarks,indent=0]
 +
 image::home-screen.png[]
 
-== Conclusions
+== Conclusion
 
 Well done, you have learned how to import Couchbase Lite in a React Native project.
 And how to add search and persistence functionalities to your application!
