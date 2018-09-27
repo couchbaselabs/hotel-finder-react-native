@@ -15,7 +15,7 @@ class HotelFinderNative: NSObject {
   let DB_NAME = "travel-sample"
   let DOC_TYPE = "bookmarkedhotels"
   
-  // tag::lazy-database[]
+  // tag::setup-database[]
   lazy var database: Database = {
     let path = Bundle.main.path(forResource: self.DB_NAME, ofType: "cblite2")!
     if !Database.exists(withName: self.DB_NAME) {
@@ -33,9 +33,9 @@ class HotelFinderNative: NSObject {
       fatalError("Could not copy database")
     }
   }()
-  // end::lazy-database[]
+  // end::setup-database[]
   
-  // tag::create-indexes[]
+  // tag::create-index[]
   func createIndexes(_ database: Database) {
     do {
       try database.createIndex(IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("description")).ignoreAccents(false), withName: "descFTSIndex")
@@ -43,7 +43,7 @@ class HotelFinderNative: NSObject {
       print(error)
     }
   }
-  // end::create-indexes[]
+  // end::create-index[]
   
   // tag::search[]
   @objc func search(_ description: String?, _ location: String = "", _ errorCallback: @escaping () -> Void, _ successCallback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
@@ -105,57 +105,6 @@ class HotelFinderNative: NSObject {
   }
   // end::bookmark[]
   
-  func findOrCreateBookmarkDocument() -> MutableDocument {
-    let query = QueryBuilder
-      .select(
-        SelectResult.expression(Meta.id),
-        SelectResult.property("hotels")
-      )
-      .from(DataSource.database(database))
-      .where(
-        Expression.property("type")
-          .equalTo(Expression.string(DOC_TYPE))
-      )
-    
-    do {
-      let resultSet = try query.execute()
-      let array = resultSet.allResults()
-      if (array.count == 0) {
-        let mutableDocument = MutableDocument()
-          .setString(DOC_TYPE, forKey: "type")
-          .setArray(MutableArrayObject(), forKey: "hotels")
-        try database.saveDocument(mutableDocument)
-        return mutableDocument
-      } else {
-        let documentId = array[0].string(forKey: "id")!
-        let document = database.document(withID: documentId)!
-        return document.toMutable()
-      }
-    } catch {
-      fatalError(error.localizedDescription);
-    }
-  }
-  
-  // tag::unbookmark[]
-  @objc func unbookmark(_ hotelId: String, _ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
-    let mutableDocument = findOrCreateBookmarkDocument()
-    let array = mutableDocument.array(forKey: "hotels")!
-    for (index, item) in array.enumerated().reversed() {
-      if (item as! String == hotelId) {
-        array.removeValue(at: index)
-      }
-    }
-    mutableDocument.setArray(array, forKey: "hotels")
-    do {
-      try database.saveDocument(mutableDocument)
-      successCallback([array.toArray()])
-    } catch {
-      errorCallback([error.localizedDescription])
-      fatalError(error.localizedDescription)
-    }
-  }
-  // end::unbookmark[]
-  
   // tag::query-ids[]
   @objc func queryBookmarkIds(_ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
     let mutableDocument = findOrCreateBookmarkDocument()
@@ -164,7 +113,7 @@ class HotelFinderNative: NSObject {
   }
   // end::query-ids[]
   
-  // tag::bookmark-list-method-swift[]
+  // tag::query-bookmarks[]
   @objc func queryBookmarkDocuments(_ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
     // Do a JOIN Query to fetch bookmark document and for every hotel Id listed
     // in the "hotels" property, fetch the corresponding hotel document
@@ -200,8 +149,57 @@ class HotelFinderNative: NSObject {
       fatalError(error.localizedDescription)
     }
   }
-  // end::bookmark-list-method-swift[]
+  // end::query-bookmarks[]
   
-
+  // tag::unbookmark[]
+  @objc func unbookmark(_ hotelId: String, _ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
+    let mutableDocument = findOrCreateBookmarkDocument()
+    let array = mutableDocument.array(forKey: "hotels")!
+    for (index, item) in array.enumerated().reversed() {
+      if (item as! String == hotelId) {
+        array.removeValue(at: index)
+      }
+    }
+    mutableDocument.setArray(array, forKey: "hotels")
+    do {
+      try database.saveDocument(mutableDocument)
+      successCallback([array.toArray()])
+    } catch {
+      errorCallback([error.localizedDescription])
+      fatalError(error.localizedDescription)
+    }
+  }
+  // end::unbookmark[]
+  
+  func findOrCreateBookmarkDocument() -> MutableDocument {
+    let query = QueryBuilder
+      .select(
+        SelectResult.expression(Meta.id),
+        SelectResult.property("hotels")
+      )
+      .from(DataSource.database(database))
+      .where(
+        Expression.property("type")
+          .equalTo(Expression.string(DOC_TYPE))
+    )
+    
+    do {
+      let resultSet = try query.execute()
+      let array = resultSet.allResults()
+      if (array.count == 0) {
+        let mutableDocument = MutableDocument()
+          .setString(DOC_TYPE, forKey: "type")
+          .setArray(MutableArrayObject(), forKey: "hotels")
+        try database.saveDocument(mutableDocument)
+        return mutableDocument
+      } else {
+        let documentId = array[0].string(forKey: "id")!
+        let document = database.document(withID: documentId)!
+        return document.toMutable()
+      }
+    } catch {
+      fatalError(error.localizedDescription);
+    }
+  }
   
 }
