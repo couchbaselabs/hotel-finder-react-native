@@ -12,12 +12,15 @@ import CouchbaseLiteSwift
 @objc (HotelFinderNative)
 class HotelFinderNative: NSObject {
   
+  let DB_NAME = "travel-sample"
+  let DOC_TYPE = "bookmarkedhotels"
+  
   // tag::lazy-database[]
   lazy var database: Database = {
-    let path = Bundle.main.path(forResource: "travel-sample", ofType: "cblite2")!
-    if !Database.exists(withName: "travel-sample") {
+    let path = Bundle.main.path(forResource: self.DB_NAME, ofType: "cblite2")!
+    if !Database.exists(withName: self.DB_NAME) {
       do {
-        try Database.copy(fromPath: path, toDatabase: "travel-sample", withConfig: nil)
+        try Database.copy(fromPath: path, toDatabase: self.DB_NAME, withConfig: nil)
       } catch {
         fatalError("Could not copy database")
       }
@@ -42,134 +45,17 @@ class HotelFinderNative: NSObject {
   }
   // end::create-indexes[]
   
-  // tag::bookmark[]
-  @objc func bookmark(_ hotelId: Int, _ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ successCallback: @escaping ([AnyHashable : Any]) -> Void) {
-    do {
-      var document = try fetchBookmarkDocument(self.database)
-      if document == nil {
-        document = MutableDocument(data: ["type": "bookmarkedhotels", "hotels": [String]()])
-      }
-      var mutableDocument = document!.toMutable()
-      mutableDocument.array(forKey: "hotels")!.addInt(hotelId)
-      try self.database.saveDocument(mutableDocument)
-    } catch {
-      print(error)
-    }
-  }
-  // end::bookmark[]
-  
-  func findOrCreateBookmarkDocument() {
-//    let query = Query
-  }
-  
-  // tag::unbookmark[]
-  @objc func unbookmark(_ hotelId: String, _ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ success: @escaping ([AnyHashable : Any]) -> Void) {
-    print("Bookmark hotel :: \(hotelId)");
-    do {
-      var document = try fetchBookmarkDocument(self.database)
-      if document == nil {
-        document = MutableDocument(data: ["type": "bookmarkedhotels", "hotels": [String]()])
-      }
-      var mutableDocument = document!.toMutable()
-      let bookmarkedIds = mutableDocument.array(forKey: "hotels")!.toArray()
-      let newBookmarkedIds = bookmarkedIds.filter { (item) -> Bool in
-//        return item != hotelId
-        return false
-      }
-      mutableDocument.setArray(MutableArrayObject(data: newBookmarkedIds), forKey: "hotels")
-      try self.database.saveDocument(mutableDocument)
-    } catch {
-      print(error)
-    }
-  }
-  // end::unbookmark[]
-  
-  // tag::fetch-bookmark-document[]
-  func fetchBookmarkDocument(_ db:Database) throws ->Document? {
-    let searchQuery = QueryBuilder
-      .select(SelectResult.expression(Meta.id))
-      .from(DataSource.database(db))
-      .where(
-        Expression.property("type")
-        .equalTo(Expression.string("bookmarkedhotels"))
-      )
-    
-    /*
-     {
-        "type" : "bookmarkedhotelss"
-        "hotels":["hotel1","hotel2"]
-     }
-     */
-    
-    for row in try searchQuery.execute() {
-      print("Bookmarked doc is \(row.toDictionary())")
-      if let docId = row.string(forKey: "id") {
-        return db.document(withID:docId)
-      }
-    }
-    
-    return nil
-  }
-  // end::fetch-bookmark-document[]
-  
-  // tag::query-ids[]
-  @objc func queryBookmarkIds(_ errorCallback: @escaping ([AnyHashable : Any]) -> Void, _ successCallback: @escaping ([[AnyHashable]]) -> Void) {
-    let query = QueryBuilder
-      .select(SelectResult.all())
-      .from(DataSource.database(self.database))
-      .where(
-        Expression.property("type").equalTo(Expression.string("bookmarkedhotels"))
-      )
-    
-    var hotelIds: [AnyHashable] = []
-    for row in try! query.execute() {
-      let hotelDoc = row.toDictionary()
-      if let documentBody = hotelDoc["travel-sample"] as? Dictionary<String,Any> {
-        hotelIds = documentBody["hotels"] as! [Int]
-      }
-    }
-    successCallback([hotelIds])
-  }
-  // end::query-ids[]
-  
-  // tag::bookmark-list-method-swift[]
-  @objc func queryBookmarkDocuments(_ errorCallback: @escaping ([[[AnyHashable : Any]]]) -> Void, _ successCallback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
-    let query = QueryBuilder
-      .select(SelectResult.all())
-      .from(DataSource.database(self.database))
-      .where(
-        Expression.property("type").equalTo(Expression.string("bookmarkedhotels"))
-    )
-    
-    var hotels: [Dictionary<String,Any>] = []
-    var result: [Dictionary<String,Any>] = []
-    for row in try! query.execute() {
-      hotels.append(row.toDictionary())
-    }
-    guard hotels.count > 0 else {
-      successCallback([result])
-      return
-    }
-    let hotelDoc = hotels[0]["travel-sample"]! as! Dictionary<String,Any>
-    let hotelIds = hotelDoc["hotels"] as! [Int]
-    for hotelId in hotelIds {
-      let document = self.database.document(withID: "hotel_\(hotelId)")
-      result.append(document!.toDictionary())
-    }
-    successCallback([result])
-  }
-  // end::bookmark-list-method-swift[]
-  
   // tag::search[]
-  @objc func searchHotels(_ descriptionText: String?, withLocation locationText: String = "", _ callback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
+  @objc func search(_ description: String?, _ location: String = "", _ errorCallback: @escaping () -> Void, _ successCallback: @escaping ([[[AnyHashable : Any]]]) -> Void) {
     
-    let locationExpression = Expression.property("country").like(Expression.string("%\(locationText)%"))
-      .or(Expression.property("city").like(Expression.string("%\(locationText)%")))
-      .or(Expression.property("state").like(Expression.string("%\(locationText)%")))
-      .or(Expression.property("address").like(Expression.string("%\(locationText)")))
+    let locationExpression = Expression.property("country")
+      .like(Expression.string("%\(location)%"))
+      .or(Expression.property("city").like(Expression.string("%\(location)%")))
+      .or(Expression.property("state").like(Expression.string("%\(location)%")))
+      .or(Expression.property("address").like(Expression.string("%\(location)")))
     
     var searchExpression: ExpressionProtocol = locationExpression
-    if let text = descriptionText {
+    if let text = description {
       let descriptionFTSExpression = FullTextExpression.index("descFTSIndex").match(text)
       searchExpression = descriptionFTSExpression.and(locationExpression)
     }
@@ -177,20 +63,145 @@ class HotelFinderNative: NSObject {
     let query = QueryBuilder
       .select(
         SelectResult.expression(Meta.id),
-        SelectResult.all()
+        SelectResult.expression(Expression.property("name")),
+        SelectResult.expression(Expression.property("address")),
+        SelectResult.expression(Expression.property("phone"))
       )
       .from(DataSource.database(self.database))
       .where(
         Expression.property("type").equalTo(Expression.string("hotel"))
-        .and(searchExpression)
-      )
+          .and(searchExpression)
+    )
     
-    var hotels: [[AnyHashable : Any]] = []
-    for row in try! query.execute() {
-      hotels.append(row.toDictionary())
+    do {
+      let resultSet = try query.execute()
+      var array: [[AnyHashable : Any]] = []
+      for result in resultSet {
+        let map = result.toDictionary()
+        array.append(map)
+      }
+      successCallback([array])
+    } catch {
+      print(error)
+      errorCallback();
     }
-    callback([hotels])
   }
   // end::search[]
+  
+  // tag::bookmark[]
+  @objc func bookmark(_ hotelId: String, _ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
+    let mutableDocument = findOrCreateBookmarkDocument()
+    mutableDocument
+      .array(forKey: "hotels")!
+      .addString(hotelId)
+    do {
+      try database.saveDocument(mutableDocument)
+      let array = mutableDocument.array(forKey: "hotels")!.toArray()
+      successCallback([array])
+    } catch {
+      errorCallback([error.localizedDescription])
+      fatalError(error.localizedDescription)
+    }
+  }
+  // end::bookmark[]
+  
+  func findOrCreateBookmarkDocument() -> MutableDocument {
+    let query = QueryBuilder
+      .select(
+        SelectResult.expression(Meta.id),
+        SelectResult.property("hotels")
+      )
+      .from(DataSource.database(database))
+      .where(
+        Expression.property("type")
+          .equalTo(Expression.string(DOC_TYPE))
+      )
+    
+    do {
+      let resultSet = try query.execute()
+      let array = resultSet.allResults()
+      if (array.count == 0) {
+        let mutableDocument = MutableDocument()
+          .setString(DOC_TYPE, forKey: "type")
+          .setArray(MutableArrayObject(), forKey: "hotels")
+        try database.saveDocument(mutableDocument)
+        return mutableDocument
+      } else {
+        let documentId = array[0].string(forKey: "id")!
+        let document = database.document(withID: documentId)!
+        return document.toMutable()
+      }
+    } catch {
+      fatalError(error.localizedDescription);
+    }
+  }
+  
+  // tag::unbookmark[]
+  @objc func unbookmark(_ hotelId: String, _ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
+    let mutableDocument = findOrCreateBookmarkDocument()
+    let array = mutableDocument.array(forKey: "hotels")!
+    for (index, item) in array.enumerated().reversed() {
+      if (item as! String == hotelId) {
+        array.removeValue(at: index)
+      }
+    }
+    mutableDocument.setArray(array, forKey: "hotels")
+    do {
+      try database.saveDocument(mutableDocument)
+      successCallback([array.toArray()])
+    } catch {
+      errorCallback([error.localizedDescription])
+      fatalError(error.localizedDescription)
+    }
+  }
+  // end::unbookmark[]
+  
+  // tag::query-ids[]
+  @objc func queryBookmarkIds(_ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
+    let mutableDocument = findOrCreateBookmarkDocument()
+    let array = mutableDocument.array(forKey: "hotels")!.toArray()
+    successCallback([array])
+  }
+  // end::query-ids[]
+  
+  // tag::bookmark-list-method-swift[]
+  @objc func queryBookmarkDocuments(_ errorCallback: @escaping ([Any]) -> Void, _ successCallback: @escaping ([Any]) -> Void) {
+    // Do a JOIN Query to fetch bookmark document and for every hotel Id listed
+    // in the "hotels" property, fetch the corresponding hotel document
+    let bookmarkDS = DataSource.database(database).as("bookmarkDS")
+    let hotelsDS = DataSource.database(database).as("hotelsDS")
+    
+    let hotelsExpr = Expression.property("hotels").from("bookmarkDS")
+    let hotelIdExpr = Meta.id.from("hotelsDS")
+    
+    let joinExpr = ArrayFunction.contains(hotelsExpr, value: hotelIdExpr)
+    let join = Join.join(hotelsDS).on(joinExpr);
+    
+    let typeExpr = Expression.property("type").from("bookmarkDS")
+    
+    let bookmarkAllColumns = SelectResult.all().from("bookmarkDS")
+    let hotelsAllColumns = SelectResult.all().from("hotelsDS")
+    
+    let query = QueryBuilder.select(bookmarkAllColumns, hotelsAllColumns)
+      .from(bookmarkDS)
+      .join(join)
+      .where(typeExpr.equalTo(Expression.string(DOC_TYPE)));
+    
+    do {
+      let resultSet = try query.execute()
+      var array: [Any] = []
+      for (_, item) in resultSet.enumerated() {
+        let dictionary = item.dictionary(forKey: "hotelsDS")!
+        array.append(dictionary.toDictionary())
+      }
+      successCallback([array])
+    } catch {
+      errorCallback([error.localizedDescription])
+      fatalError(error.localizedDescription)
+    }
+  }
+  // end::bookmark-list-method-swift[]
+  
+
   
 }

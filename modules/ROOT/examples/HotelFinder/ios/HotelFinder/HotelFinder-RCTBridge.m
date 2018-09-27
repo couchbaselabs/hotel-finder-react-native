@@ -11,18 +11,18 @@
 
 @interface RCT_EXTERN_MODULE(HotelFinderNative, NSObject)
 RCT_EXTERN_METHOD(queryHotel:(NSString *)id)
-RCT_EXTERN_METHOD(queryBookmarkedHotelIds:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(queryBookmarkIds :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
 // tag::bookmark-list-signature[]
-RCT_EXTERN_METHOD(queryBookmarkedHotelsDocs:(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(queryBookmarkDocuments :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
 // end::bookmark-list-signature[]
 // tag::bookmark-method-signature[]
-RCT_EXTERN_METHOD(bookmarkHotel:(NSInteger *)id)
+RCT_EXTERN_METHOD(bookmark :(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
 // end::bookmark-method-signature[]
 // tag::unbookmark-method-signature[]
-RCT_EXTERN_METHOD(unbookmarkHotel:(NSInteger *)id)
+RCT_EXTERN_METHOD(unbookmark:(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
 // end::unbookmark-method-signature[]
 // tag::search-hotels-method-signature[]
-RCT_EXTERN_METHOD(searchHotels:(NSString *)descriptionText withLocation:(NSString *)locationText :(RCTResponseSenderBlock)callback)
+RCT_EXTERN_METHOD(search :(NSString *)description :(NSString *)location :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
 // end::search-hotels-method-signature[]
 
 + (BOOL)requiresMainQueueSetup

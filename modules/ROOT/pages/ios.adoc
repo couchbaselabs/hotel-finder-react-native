@@ -164,6 +164,12 @@ include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=c
 
 In the next sections, you will use this instance variable to perform various operations.
 
+== Type Mapping
+
+It is important to understand how types in Swift map to JavaScript code.
+
+
+
 == Search Hotels
 
 In this section, you will add the functionality to search for hotels.
