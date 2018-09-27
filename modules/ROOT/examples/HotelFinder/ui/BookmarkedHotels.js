@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 import Row from './Row';
 import Swipeout from 'rc-swipeout/lib';
-// tag::import-statement[]
+// tag::import[]
 import {NativeModules} from 'react-native';
 let HotelFinderNative = NativeModules.HotelFinderNative;
-// end::import-statement[]
+// end::import[]
 
 export default class BookmarkedHotels extends React.Component {
   constructor(props) {
@@ -47,13 +47,13 @@ export default class BookmarkedHotels extends React.Component {
     });
   }
   queryBookmarkDocuments() {
-    // tag::bookmark-list-method-js[]
+    // tag::query-bookmarks[]
     HotelFinderNative.queryBookmarkDocuments(err => {
       console.log(err);
     }, bookmarks => {
       this.setState({bookmarkDocuments: bookmarks});
     });
-    // end::bookmark-list-method-js[]
+    // end::query-bookmarks[]
   }
   unbookmarkHotel(hotelId) {
     HotelFinderNative.unbookmark(hotelId, err => {

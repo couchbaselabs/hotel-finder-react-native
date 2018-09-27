@@ -221,6 +221,7 @@ public class HotelFinderNative extends ReactContextBaseJavaModule {
     }
     // end::unbookmark[]
 
+    // tag::find-or-create[]
     private MutableDocument findOrCreateBookmarkDocument() {
         Query query = QueryBuilder
             .select(
@@ -252,5 +253,6 @@ public class HotelFinderNative extends ReactContextBaseJavaModule {
             return null;
         }
     }
+    // end::find-or-create[]
 
 }

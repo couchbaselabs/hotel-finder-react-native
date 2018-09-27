@@ -14,10 +14,10 @@ import {
 } from 'react-native-elements';
 import Row from './Row';
 import Swipeout from 'rc-swipeout/lib';
-// tag::import-statement[]
+// tag::import[]
 import { NativeModules } from 'react-native';
 let HotelFinderNative = NativeModules.HotelFinderNative;
-// end::import-statement[]
+// end::import[]
 
 export default class Hotels extends React.Component {
   constructor() {
@@ -33,45 +33,43 @@ export default class Hotels extends React.Component {
 
   }
   componentWillMount() {
-    // tag::query-bookmark-ids-js[]
     this.queryBookmarkIds();
-    // end::query-bookmark-ids-js[]
   }
   onChangeText(descriptionText, locationText) {
-    // tag::search-js[]
+    // tag::search[]
     HotelFinderNative.search(descriptionText, locationText, err => {
       console.log(err);
     }, hotels => {
       this.setState({hotels: hotels});
     });
-    // end::search-js[]
+    // end::search[]
   }
   bookmark(hotelId) {
-    // tag::bookmark-method-js[]
+    // tag::bookmark[]
     HotelFinderNative.bookmark(hotelId, err => {
       console.log(err);
     }, bookmarkIds => {
       this.setState({bookmarkIds: bookmarkIds});
     });
-    // end::bookmark-method-js[]
+    // end::bookmark[]
   }
   unbookmark(hotelId) {
-    // tag::unbookmark-method-js[]
+    // tag::unbookmark[]
     HotelFinderNative.unbookmark(hotelId, err => {
       console.log(err);
     }, bookmarkIds => {
       this.setState({bookmarkIds: bookmarkIds});
     });
-    // end::unbookmark-method-js[]
+    // end::unbookmark[]
   }
   queryBookmarkIds() {
-    // tag::bookmarked-hotels-js[]
+    // tag::query-ids[]
     HotelFinderNative.queryBookmarkIds(err => {
       console.log(err);
     }, hotels => {
       this.setState({bookmarkIds: hotels});
     });
-    // end::bookmarked-hotels-js[]
+    // end::query-ids[]
   }
   isBookmarked(hotel) {
     return this.state.bookmarkIds.indexOf(hotel.id) !== -1;

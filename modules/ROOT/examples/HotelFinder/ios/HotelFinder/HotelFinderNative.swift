@@ -27,7 +27,7 @@ class HotelFinderNative: NSObject {
     }
     do {
       let database = try Database(name: "travel-sample")
-      self.createIndexes(database)
+      self.createIndex(database)
       return database
     } catch {
       fatalError("Could not copy database")
@@ -36,7 +36,7 @@ class HotelFinderNative: NSObject {
   // end::setup-database[]
   
   // tag::create-index[]
-  func createIndexes(_ database: Database) {
+  func createIndex(_ database: Database) {
     do {
       try database.createIndex(IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("description")).ignoreAccents(false), withName: "descFTSIndex")
     } catch {
@@ -170,7 +170,8 @@ class HotelFinderNative: NSObject {
     }
   }
   // end::unbookmark[]
-  
+
+  // tag::find-or-create[]
   func findOrCreateBookmarkDocument() -> MutableDocument {
     let query = QueryBuilder
       .select(
@@ -201,5 +202,6 @@ class HotelFinderNative: NSObject {
       fatalError(error.localizedDescription);
     }
   }
+  // end::find-or-create[]
   
 }

@@ -10,20 +10,26 @@
 #import "React/RCTBridgeModule.h"
 
 @interface RCT_EXTERN_MODULE(HotelFinderNative, NSObject)
-RCT_EXTERN_METHOD(queryHotel:(NSString *)id)
-RCT_EXTERN_METHOD(queryBookmarkIds :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
-// tag::bookmark-list-signature[]
-RCT_EXTERN_METHOD(queryBookmarkDocuments :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
-// end::bookmark-list-signature[]
-// tag::bookmark-method-signature[]
-RCT_EXTERN_METHOD(bookmark :(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
-// end::bookmark-method-signature[]
-// tag::unbookmark-method-signature[]
-RCT_EXTERN_METHOD(unbookmark:(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
-// end::unbookmark-method-signature[]
-// tag::search-hotels-method-signature[]
+
+// tag::search[]
 RCT_EXTERN_METHOD(search :(NSString *)description :(NSString *)location :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
-// end::search-hotels-method-signature[]
+// end::search[]
+
+// tag::bookmark[]
+RCT_EXTERN_METHOD(bookmark :(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
+// end::bookmark[]
+
+// tag::query-ids[]
+RCT_EXTERN_METHOD(queryBookmarkIds :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
+// end::query-ids[]
+
+// tag::query-bookmarks[]
+RCT_EXTERN_METHOD(queryBookmarkDocuments :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
+// end::query-bookmarks[]
+
+// tag::unbookmark[]
+RCT_EXTERN_METHOD(unbookmark:(NSString *)hotelId :(RCTResponseSenderBlock)errorCallback :(RCTResponseSenderBlock)successCallback)
+// end::unbookmark[]
 
 + (BOOL)requiresMainQueueSetup
 {
