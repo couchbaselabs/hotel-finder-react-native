@@ -49,6 +49,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		B4672880866A4630AF51A592 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 09B7316875574FA1B7DE6A4B /* FontAwesome.ttf */; };
+		BE50616D215A7E72003E45F7 /* libReactNativeNavigation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BE50616B215A7E1C003E45F7 /* libReactNativeNavigation.a */; };
 		BE848ED02132811B00C02CE6 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */; };
 		BE922E0421312D7E00E0164F /* HotelFinder-RCTBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */; };
 		BE922E2B21312F2B00E0164F /* HotelFinderNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */; };
@@ -335,6 +336,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		BE50616A215A7E1C003E45F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE506141215A7E1C003E45F7 /* ReactNativeNavigation.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D8AFADBD1BEE6F3F00A4592D;
+			remoteInfo = ReactNativeNavigation;
+		};
 		BE5DCF01213EB44700ABAEB0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 55E3ECEE584D48129F17C410 /* RNVectorIcons.xcodeproj */;
@@ -399,6 +407,7 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8502AC4A8CC147938690BCE2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		BE506141215A7E1C003E45F7 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
 		BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "travel-sample.cblite2"; path = "HotelFinder/travel-sample.cblite2"; sourceTree = "<group>"; };
 		BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "HotelFinder-RCTBridge.m"; path = "HotelFinder/HotelFinder-RCTBridge.m"; sourceTree = "<group>"; };
 		BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotelFinderNative.swift; path = HotelFinder/HotelFinderNative.swift; sourceTree = "<group>"; };
@@ -436,6 +445,7 @@
 				BEECC2D921480E0600A56036 /* CouchbaseLiteSwift.framework in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				2AB6259547174C0B8E4B4C0F /* libRNVectorIcons.a in Frameworks */,
+				BE50616D215A7E72003E45F7 /* libReactNativeNavigation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -635,6 +645,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BE506141215A7E1C003E45F7 /* ReactNativeNavigation.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -693,6 +704,14 @@
 			children = (
 				ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */,
 				2D16E6721FA4F8DC00B85C8A /* libRCTBlob-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BE506142215A7E1C003E45F7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BE50616B215A7E1C003E45F7 /* libReactNativeNavigation.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -875,6 +894,10 @@
 				{
 					ProductGroup = 146834001AC3E56700842450 /* Products */;
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
+				},
+				{
+					ProductGroup = BE506142215A7E1C003E45F7 /* Products */;
+					ProjectRef = BE506141215A7E1C003E45F7 /* ReactNativeNavigation.xcodeproj */;
 				},
 				{
 					ProductGroup = BE5DCEFE213EB44700ABAEB0 /* Products */;
@@ -1151,6 +1174,13 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		BE50616B215A7E1C003E45F7 /* libReactNativeNavigation.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libReactNativeNavigation.a;
+			remoteRef = BE50616A215A7E1C003E45F7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BE5DCF02213EB44700ABAEB0 /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1375,6 +1405,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = HotelFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1404,6 +1435,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-navigation/ios/**",
 				);
 				INFOPLIST_FILE = HotelFinder/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
