@@ -1,0 +1,317 @@
+= Couchbase Lite with React Native on Android
+:snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
+:hotel-finder-native: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderNative.java
+:hotel-finder-package: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderPackage.java
+:assets: HotelFinder/android/app/src/main/assets/travel-sample.cblite2.zip
+
+++++
+<link rel="canonical" href="http://docs.couchbase.com/samples-js-staging/hotel-finder/android.html" />
+++++
+
+In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
+
+The sample project is an application that can search for hotels.
+Each hotel can be bookmarked or unbookmarked.
+
+image::home-screen.png[,50%]
+
+In this application, the User Interface is written in JavaScript and Data Persistence is written in Swift with Couchbase Lite's API.
+This architecture allows you to write the User Interface code once for both iOS and Android whilst keeping the benefits of using Couchbase Lite for data management.
+
+== Pre-requisites
+
+This tutorial requires the following components and versions to run successfully.
+
+* Android Studio 3.1.3 or above
+* Android SDK 19
+* Java 8
+* Couchbase Lite 2.1.1
+* Node.js 6.0 or above
+
+The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Java.
+
+== How to Complete this Tutorial
+
+*The User Interface has already been implemented in the starter project.
+You will add the code to persist and query data.*
+
+. Download the link:{attachmentsdir}/starter-project.zip[starter project].
+. Unzip *starter-project.zip*.
+. Open the *starter-project/HotelFinder/* directory in the JavaScript editor of your choice (for example, https://code.visualstudio.com/[Visual Studio Code] or https://www.jetbrains.com/webstorm/[WebStorm]).
+. The User Interface code is located in *ui/BookmarkedHotels.js* and *ui/Hotels.js*.
+. Run the following commands in your Terminal.
++
+[source,bash]
+----
+cd HotelFinder
+npm install -g react-native-cli
+npm install
+react-native link
+----
+The `react-native link` command bundles native dependencies in your Xcode project.
+It is required in the https://react-native-training.github.io/react-native-elements/docs/0.19.0/getting_started.html[react-native-elements] installation process.
+. Start the React Native development server.
++
+[source,bash]
+----
+npm run start
+----
+The `npm run start` command starts a web server that bundles and serves the JavaScript code to the application.
+You should see the following in the output.
++
+[source,bash]
+----
+Metro Bundler ready.
+
+Loading dependency graph...
+----
+. Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
+. Build and run.
+. You can click on the *Hotels* button to run a search query.
+But the result of the query is empty because the application is missing the code to persist data.
+
+In the next section, you will setup the Native Module interface which is the first step for establishing communication between native code and JavaScript.
+
+== Native Modules Setup
+
+With https://facebook.github.io/react-native/docs/native-modules-android[Native Modules], you can write native code and have access to it from JavaScript.
+It is helpful when an app needs access to native APIs, and React Native doesn't have a corresponding module yet.
+In this tutorial, you will use the Native Modules API to implement methods in Java and call them from the JavaScript code.
+These methods will do the following:
+
+- Search for terms in a Couchbase Lite database.
+- Query documents in a Couchbase Lite database.
+- Create and Update documents in a Couchbase Lite database.
+
+=== Java Setup
+
+. Create a new file named *HotelFinderNative.java* in *app/src/main/java/com/hotelfinder/* with the following.
++
+[source,java]
+----
+public class HotelFinderNative extends ReactContextBaseJavaModule {
+
+    private static String DB_NAME = "travel-sample";
+
+    HotelFinderNative(ReactApplicationContext reactContext) {
+        super(reactContext);
+    }
+
+    @Override
+    public String getName() {
+        return "HotelFinderNative";
+    }
+
+}
+----
+. Create a new file named *HotelFinderPackage.java* in *app/src/main/java/com/hotelfinder/* with the following.
++
+[source,java]
+----
+include::{examplesdir}/{hotel-finder-package}[tag=hotel-finder-package,indent=0]
+----
+. The package needs to be provided in the `getPackages` method of the *MainApplication.java* file.
++
+[source,java]
+----
+protected List<ReactPackage> getPackages() {
+	return Arrays.<ReactPackage>asList(
+			new VectorIconsPackage(),
+			new HotelFinderPackage() // <-- Add this line with your package name.
+	);
+}
+----
+
+You are now ready to implement functionalities in Java.
+The next step is to import the Couchbase Lite framework in your project.
+
+== Couchbase Lite Setup
+
+. Add the following in the `dependencies` section of the application’s *build.gradle* (the one in the *app* folder).
++
+[source,java]
+----
+implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
+----
+
+== Database Setup
+
+In our example, we will start with a pre-built Couchbase Lite database that contains a bunch of hotel documents.
+We will make our queries against the documents in this database.
+Note that in a real world application, the data could be synced down from other Couchbase Lite clients or from Sync Gateway in the cloud.
+
+The pre-built database needs to be added to the Android Studio project.
+
+. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
+Make sure to select the *Copy items if needed* checkbox.
+. Add a new instance variable of type `Database` in *HotelFinderNative.java*.
++
+[source,java]
+----
+private Database database;
+----
+. Add the following method in *HotelFinderNative.java* and call it from the class constructor.
++
+[source,java]
+----
+include::{examplesdir}/{hotel-finder-native}[tag=setup-database,indent=0]
+----
+In this code, you first check if a database named "travel-sample" exists.
+If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
+The database is then opened and the instance returned.
+. In *HotelFinderNative.swift*, add the following method.
+This method creates the Full-Text Search index on the `description` property.
++
+[source,swift]
+----
+include::{examplesdir}/{hotel-finder-native}[tag=create-index,indent=0]
+----
+. Build & run. The project should build successfully.
+
+In the next sections, you will use this instance variable to perform various operations.
+
+== Search Hotels
+
+In this section, you will add the functionality to search for hotels.
+
+. Add the following to the top of *HotelFinder/ui/Hotels.js*.
++
+[source,javascript]
+----
+include::{examplesdir}/HotelFinder/ui/Hotels.js[tag=import-statement,indent=0]
+----
+The `HotelFinderNative` constant corresponds to the native module that was created in the <<swift-objective-c-setup,Swift/Objective-C Setup>> section.
+. Next, you must implement the new method in the `HotelFinderNative` module before it can be accessed in JavaScript.
+Insert a new method signature in *HotelFinder-RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{examplesdir}/{hotel-finder-native}[tag=search,indent=0]
+----
+`RCT_EXTERN_METHOD()` is a React Native macro to specify that this method must be exported to JavaScript.
+. Implement this method in *HotelFinderNative.swift*.
+This code creates the FTS query using the `match()` operator.
+In this particular example, the match expression looks for the `descriptionText` value in the `description` property.
+This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.
+This expression is then used in the `where` clause of the query in the usual way.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=search-hotels-method-impl,indent=0]
+----
+. Add the following to the `onChangeText` method in *Hotels.js*.
++
+[source,javascript]
+----
+include::{examplesdir}/HotelFinder/ui/Hotels.js[tag=search-hotels-js,indent=0]
+----
+. Build & run.
+. Enter "UK" in the location input field and press the *Lookup* button.
+You should now see a list of hotels in the search result.
++
+image::search-hotel.gif[]
+
+== Bookmark Hotel
+
+. Insert a new method signature in *HotelFinder-RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinder-RCTBridge.m[tag=bookmark-method-signature,indent=0]
+----
+. Implement the corresponding method natively in *HotelFinderNative.swift*.
+Bookmarked hotels are persisted in a separate document with a type of `bookmarkedhotels`.
+The first time a hotel is bookmarked, the `bookmarkedhotels` document is created with the document ID of that hotel document in the `hotels` property.
+The hotel's information is persisted in a separate hotels type document.
+Subsequently, every time a new hotel is bookmarked, the hotel ID is appended to the `hotels` array of the existing document.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=bookmark-method-swift,indent=0]
+----
+. Next, add the `fetchBookmarkDocument` method which gets called from the `bookmarkHotel` method.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=fetch-bookmark-document,indent=0]
+----
+. Add the following to the `bookmarkHotel` method in *Hotel.js*.
++
+[source,javascript]
+----
+include::{examplesdir}/HotelFinder/ui/Hotels.js[tag=bookmark-method-js,indent=0]
+----
+. Build & run.
+. Click *Hotels* and search for a hotel (type "UK" in the location field for example).
+. You can now swipe a table view row to bookmark a hotel.
+The bookmark icon is displayed.
++
+image::swipe-row.gif[]
+
+In the next section, you will query the bookmarked hotels to display them on the first screen.
+
+== Bookmarked Hotels List
+
+. Add the following to the top of *HotelFinder/ui/BookmarkedHotels.js*.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ui/BookmarkedHotels.js[tag=import-statement,indent=0]
+----
+. Insert a new method signature in *HotelFinder-RCTBridge.m*.
++
+[source,objectivec]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinder-RCTBridge.m[tag=bookmark-list-signature,indent=0]
+----
+. Implement the corresponding method natively in *HotelFinderNative.swift*.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=bookmark-list-method-swift,indent=0]
+----
+. Add the following to the `queryBookmarkedHotels` method in *BookmarkedHotels.js*.
++
+[source,javascript]
+----
+include::{examplesdir}/HotelFinder/ui/BookmarkedHotels.js[tag=bookmark-list-method-js,indent=0]
+----
+. Build and run.
+. You can now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section show up on the Bookmarked hotels screen.
++
+image::home-screen.png[]
+
+////
+== Unbookmark Hotel
+
+. Insert a new method signature in `HotelFinder-RCTBridge.m`.
++
+[source,objectivec]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinder-RCTBridge.m[tag=unbookmark-method-signature,indent=0]
+----
+. Implement this method in `HotelFinderNative.swift`.
++
+[source,swift]
+----
+include::{examplesdir}/HotelFinder/ios/HotelFinder/HotelFinderNative.swift[tag=unbookmark-method-swift,indent=0]
+----
+. Add the following to the `unbookmarkHotel` method in *Hotels.js*.
++
+[source,javascript]
+----
+include::{examplesdir}/HotelFinder/Hotels.js[tag=unbookmark-method-js,indent=0]
+----
+////
+
+== Conclusion
+
+Well done, you have learned how to import Couchbase Lite in a React Native project.
+And how to add search and persistence functionalities to your application!
+You can find a working copy of the end result in the link:{attachmentsdir}/final-project.zip[final project] zip file.
+The final project contains a few additional functionalities.
+More specifically, the ability to:
+
+* List bookmarked hotels on the search screen.
+* Unbookmark a hotel on the home screen.
+* Unbookmark a hotel on the search screens.
