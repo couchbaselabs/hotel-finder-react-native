@@ -1,2 +1,12 @@
--
+- Remove code in Bookmarks.js and Search.js
+
+Android:
+- Rm HotelFinderNative.java
+- Rm HotelFinderPackage.java
+- Rm call in `getPackages` of MainApplication.java
+- Rm Couchbase from build.gradle
+
+iOS:
+
+
 - Run package.sh script
