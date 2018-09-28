@@ -27,7 +27,6 @@ This tutorial requires the following components and versions to run successfully
 * Xcode 10 or above
 * Swift 4.2
 * Couchbase Lite 2.1.1
-* Node.js 6.0 or above
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Swift
 
