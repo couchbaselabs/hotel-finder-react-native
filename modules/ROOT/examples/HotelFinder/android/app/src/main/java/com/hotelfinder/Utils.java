@@ -3,13 +3,6 @@ package com.hotelfinder;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.couchbase.lite.MutableArray;
-import com.couchbase.lite.Result;
-import com.couchbase.lite.ResultSet;
-import com.facebook.react.bridge.Arguments;
-import com.facebook.react.bridge.WritableArray;
-import com.facebook.react.bridge.WritableMap;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,9 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 

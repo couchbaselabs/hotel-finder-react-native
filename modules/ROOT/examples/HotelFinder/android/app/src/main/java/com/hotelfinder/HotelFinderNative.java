@@ -1,7 +1,6 @@
 package com.hotelfinder;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.couchbase.lite.ArrayFunction;
 import com.couchbase.lite.CouchbaseLiteException;
