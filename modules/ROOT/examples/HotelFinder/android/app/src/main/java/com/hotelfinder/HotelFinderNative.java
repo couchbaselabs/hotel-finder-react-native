@@ -82,14 +82,19 @@ public class HotelFinderNative extends ReactContextBaseJavaModule {
     // tag::search[]
     @ReactMethod
     private void search(String description, String location, Callback errorCallback, Callback successCallback) {
-        Expression descExp = FullTextExpression.index("descFTSIndex").match(description) ;
         Expression locationExp = Expression.property("country")
             .like(Expression.string("%" + location + "%"))
             .or(Expression.property("city").like(Expression.string("%" + location + "%")))
             .or(Expression.property("state").like(Expression.string("%" + location + "%")))
             .or(Expression.property("address").like(Expression.string("%" + location + "%")));
 
-        Expression searchExp = descExp.and(locationExp);
+        Expression queryExpression = null;
+        if (description == null) {
+            queryExpression = locationExp;
+        } else {
+            Expression descExp = FullTextExpression.index("descFTSIndex").match(description);
+            queryExpression = descExp.and(locationExp);
+        }
 
         Query query = QueryBuilder
             .select(
@@ -101,7 +106,7 @@ public class HotelFinderNative extends ReactContextBaseJavaModule {
             .from(DataSource.database(database))
             .where(
                 Expression.property("type").equalTo(Expression.string("hotel"))
-                    .and(searchExp)
+                    .and(queryExpression)
             );
 
         ResultSet resultSet = null;
