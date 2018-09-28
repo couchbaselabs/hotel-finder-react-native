@@ -146,15 +146,14 @@ Note that in a real world application, the data could be synced down from other 
 
 The pre-built database needs to be added to the Android Studio project.
 
-. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
-Make sure to select the *Copy items if needed* checkbox.
-. Add a new instance variable of type `Database` in *HotelFinderNative.java*.
+. Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over to *android/app/src/main/assets/*.
+. Next, add a `database` instance variable in *HotelFinderNative.java*.
 +
 [source,java]
 ----
 private Database database;
 ----
-. Add the following method in *HotelFinderNative.java* and call it from the class constructor.
+. Implement the following method in *HotelFinderNative.java* and call it from the class constructor.
 +
 [source,java]
 ----
@@ -194,7 +193,8 @@ In this section, you will add the functionality to search for hotels.
 include::{examplesdir}/HotelFinder/ui/Search.js[tag=import,indent=0]
 ----
 The `HotelFinderNative` constant corresponds to the native module that was created in the <<java-setup,Java Setup>> section.
-. Implement this method in *HotelFinderNative.java*.
+. Next, you must implement a method in the `HotelFinderNative` module before it can be accessed in JavaScript.
+Implement this method in *HotelFinderNative.java*.
 This code creates the FTS query using the `match()` operator.
 In this particular example, the match expression looks for the `descriptionText` value in the `description` property.
 This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.

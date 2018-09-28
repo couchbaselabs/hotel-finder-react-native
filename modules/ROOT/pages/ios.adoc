@@ -75,7 +75,7 @@ In the next section, you will setup the Native Module interface which is the fir
 
 == Native Modules Setup
 
-With https://facebook.github.io/react-native/docs/0.56/native-modules-ios[Native Modules], you can write native code and have access to it from JavaScript.
+With https://facebook.github.io/react-native/docs/native-modules-ios[Native Modules], you can write native code and have access to it from JavaScript.
 It is helpful when an app needs access to native APIs, and React Native doesn't have a corresponding module yet.
 In this tutorial, you will use the Native Modules API to implement methods in Swift and call them from the JavaScript code.
 These methods will do the following:
@@ -158,7 +158,7 @@ include::{examplesdir}/{hotel-finder-native}[tag=setup-database,indent=0]
 In this code, you first check if a database named "travel-sample" exists.
 If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
 The database is then opened and the instance returned.
-. In *HotelFinderNative.swift*, add the following method.
+In *HotelFinderNative.swift*, add the following method.
 This method creates the Full-Text Search index on the `description` property.
 +
 [source,swift]
@@ -168,12 +168,6 @@ include::{examplesdir}/{hotel-finder-native}[tag=create-index,indent=0]
 . Build & run. The project should build successfully.
 
 In the next sections, you will use this instance variable to perform various operations.
-
-== Type Mapping
-
-It is important to understand how types in Swift map to JavaScript code.
-
-
 
 == Search Hotels
 
@@ -186,7 +180,7 @@ In this section, you will add the functionality to search for hotels.
 include::{examplesdir}/HotelFinder/ui/Search.js[tag=import,indent=0]
 ----
 The `HotelFinderNative` constant corresponds to the native module that was created in the <<swift-objective-c-setup,Swift/Objective-C Setup>> section.
-. Next, you must implement the new method in the `HotelFinderNative` module before it can be accessed in JavaScript.
+. Next, you must implement a method in the `HotelFinderNative` module before it can be accessed in JavaScript.
 Insert a new method signature in *HotelFinder-RCTBridge.m*.
 +
 [source,objectivec]
@@ -307,7 +301,7 @@ You can now call it from the `queryBookmarkDocuments` method in *Bookmarks.js*.
 include::{examplesdir}/HotelFinder/ui/Bookmarks.js[tag=query-bookmarks,indent=0]
 ----
 . Build and run.
-. You can now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section show up on the Bookmarks screen.
+. You should now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section.
 +
 image::home-screen.png[]
 
