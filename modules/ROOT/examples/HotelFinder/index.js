@@ -1,14 +1,14 @@
 import { Navigation } from "react-native-navigation";
-import Hotels from './ui/Hotels';
-import BookmarkedHotels from './ui/BookmarkedHotels';
+import Search from './ui/Search';
+import Bookmarks from './ui/Bookmarks';
 
-Navigation.registerComponent('HotelFinder.BookmarkedHotels', () => BookmarkedHotels);
-Navigation.registerComponent('HotelFinder.Hotels', () => Hotels);
+Navigation.registerComponent('HotelFinder.Bookmarks', () => Bookmarks);
+Navigation.registerComponent('HotelFinder.Search', () => Search);
 
 export const startApp = () => {
   Navigation.startSingleScreenApp({
     screen: {
-      screen: 'HotelFinder.BookmarkedHotels',
+      screen: 'HotelFinder.Bookmarks',
       title: 'Bookmarks',
       navigatorStyle: { screenBackgroundColor: 'white' },
     },

@@ -19,7 +19,7 @@ import { NativeModules } from 'react-native';
 let HotelFinderNative = NativeModules.HotelFinderNative;
 // end::import[]
 
-export default class Hotels extends React.Component {
+export default class Search extends React.Component {
   constructor() {
     super();
 

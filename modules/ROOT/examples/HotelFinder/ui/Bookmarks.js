@@ -14,7 +14,7 @@ import {NativeModules} from 'react-native';
 let HotelFinderNative = NativeModules.HotelFinderNative;
 // end::import[]
 
-export default class BookmarkedHotels extends React.Component {
+export default class Bookmarks extends React.Component {
   constructor(props) {
     super(props);
 
@@ -29,7 +29,7 @@ export default class BookmarkedHotels extends React.Component {
     if (event.type === 'NavBarButtonPress') {
       /* The nav bar button is tapped */
       this.props.navigator.push({
-        screen: 'HotelFinder.Hotels',
+        screen: 'HotelFinder.Search',
         title: 'Search',
       })
     } else if (event.id === 'willAppear') {
