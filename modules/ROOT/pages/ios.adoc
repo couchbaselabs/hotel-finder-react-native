@@ -12,13 +12,27 @@ In this tutorial, you will learn how to use Couchbase Lite in a React Native pro
 The sample project is an application that allows users to search and bookmark hotels from a Couchbase Lite database.
 The application contains 2 screens:
 
-- *Bookmarks Screen:* to list the user's bookmarks.
-- *Search Screen:* to search for hotels by providing a location and/or full-text search query.
+- *Bookmarks Screen:* to list the bookmarked hotels. You can unbookmark a previously bookmarked hotel from this screen
+- *Search Screen:* to search for hotels by providing a country and/or full-text search query. You can bookmark (or unbookmark) a hotel from this screen.
 
-image::home-screen.png[,50%]
+image::ios_flow.jpg[,50%]
 
-In this application, the User Interface is written in JavaScript and Data Persistence is written in Swift with Couchbase Lite's API.
-This architecture allows you to write the User Interface code once for both iOS and Android whilst keeping the benefits of using Couchbase Lite for data management.
+== Architecture
+
+The user Interface is written in JavaScript while the business logic and data model is written in native Swift . The data model uses Couchbase Lite as the embedded data persistance layer. https://facebook.github.io/react-native/docs/native-modules-ios[React Native module] acts as the bridging layer between the Javascript layer and the native swift layer. 
+
+This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native iOS framework for data management. 
+
+image::arch-ios.jpg[]
+
+== Data Model
+The data model for the app is very straightforward. There are two types of documents :
+- The _"bookmarkedhotels"_ document which includes the list of Ids corresponding to the hotels that have been bookmarked
+- The _"hotel"_ document which contains the details of the bookmarked hotel. The bookmarkedhotels document references the hotel document.
+
+image::datamodel.png[]
+
+Note that although we have modeled our data using a "by Reference" /normalized model, since Couchbase Lite is JSON Document store, you have the flexibility to embed the details of the hotels within the _bookmarkedhotels_ hotels. 
 
 == Pre-requisites
 
@@ -30,7 +44,7 @@ This tutorial requires the following components and versions to run successfully
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Swift
 
-== How to Complete this Tutorial
+== Tutorial Walkthrough
 
 *The User Interface has already been implemented in the starter project.
 You will add the code to persist and query data.*
@@ -68,7 +82,7 @@ Loading dependency graph...
 . Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
 . Build and run.
 . You can click on the *Hotels* button to run a search query.
-But the result of the query is empty because the application is missing the code to persist data.
+The result of the query will be empty.
 
 In the next section, you will setup the Native Module interface which is the first step for establishing communication between native code and JavaScript.
 
@@ -79,13 +93,13 @@ It is helpful when an app needs access to native APIs, and React Native doesn't 
 In this tutorial, you will use the Native Modules API to implement methods in Swift and call them from the JavaScript code.
 These methods will do the following:
 
-- Search for terms in a Couchbase Lite database.
+- Full Text Search for terms in a Couchbase Lite database.
 - Query documents in a Couchbase Lite database.
 - Create and Update documents in a Couchbase Lite database.
 
 === Swift/Objective-C Setup
 
-. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinder-RCTBridge.m*.
+. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinder-RCTBridge.m*. This file defines the methods that exported to the JS layer.
 . Insert the following in *HotelFinder-RCTBridge.m*.
 +
 [source,swift]
@@ -103,7 +117,7 @@ These methods will do the following:
 }
 @end
 ----
-. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinderNative.swift*.
+. Select the kbd:[File > New > File... > Objective-C File] menu and create a new file called *HotelFinderNative.swift*. This file contains the native implementation of the APIs that are exported to the JS layer.
 . Insert the following in *HotelFinderNative.swift*.
 +
 [source,swift]
@@ -172,7 +186,7 @@ In the next sections, you will use this instance variable to perform various ope
 
 In this section, you will add the functionality to search for hotels.
 
-. Add the following to the top of *HotelFinder/ui/Search.js*.
+. First, we import the appropriate ReactNative module. For this, add the following to the top of *HotelFinder/ui/Search.js*.
 +
 [source,javascript]
 ----
@@ -188,30 +202,33 @@ include::{examplesdir}/{hotel-finder-bridge}[tag=search,indent=0]
 ----
 `RCT_EXTERN_METHOD()` is a React Native macro to specify that this method must be exported to JavaScript.
 . Implement this method in *HotelFinderNative.swift*.
-This code creates the FTS query using the `match()` operator.
+
+This code creates the Full-text search query using the `match()` operator.
+
 In this particular example, the match expression looks for the `descriptionText` value in the `description` property.
-This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.
-This expression is then used in the `where` clause of the query in the usual way.
+This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.This expression is then used in the `where` clause of the query in the usual way.
 +
 [source,swift]
 ----
 include::{examplesdir}/{hotel-finder-native}[tag=search,indent=0]
 ----
-. Add the following to the `onChangeText` method in *Search.js*.
+. You can call the `search` swift method from *Search.js*. For this, add the following text to the `onChangeText` method in *Search.js*.
 +
 [source,javascript]
 ----
 include::{examplesdir}/HotelFinder/ui/Search.js[tag=search,indent=0]
 ----
 . Build & run.
-. Enter "UK" in the location input field and press the *Lookup* button.
+. Tap on "Hotels" button to get to the "Search" screen.
+. In search screen. enter "UK" in the _Country_ input field and press the *Lookup* button.
 You should now see a list of hotels in the search result.
 +
 image::search-hotel.gif[]
 
 == Bookmark Hotel
 
-. Bookmarked hotel IDs are persisted on a separate document of type `bookmarkedhotels`.
+. Bookmarked hotel IDs are persisted in a separate document of type `bookmarkedhotels`.
+
 The first time a hotel is bookmarked, the `bookmarkedhotels` document is created.
 Subsequently, every time a new hotel is bookmarked, the hotel ID is appended to the `hotels` array of the existing document.
 You will add a method to find or create the document of type `bookmarkedhotels`.
@@ -228,20 +245,20 @@ Insert a new method signature in *HotelFinder-RCTBridge.m*.
 ----
 include::{examplesdir}/{hotel-finder-bridge}[tag=bookmark,indent=0]
 ----
-Implement the corresponding method natively in *HotelFinderNative.swift*.
+. Implement the corresponding method natively in *HotelFinderNative.swift*.
 Every time a new hotel is bookmarked, the hotel ID is appended to the `hotels` array and the update is saved to the database.
 +
 [source,swift]
 ----
 include::{examplesdir}/{hotel-finder-native}[tag=bookmark,indent=0]
 ----
-You can now call it from the `bookmark` method in *Search.js*.
+. You can now call it from *Search.js*. Add the following to the `bookmark` method in *Search.js*
 +
 [source,javascript]
 ----
 include::{examplesdir}/HotelFinder/ui/Search.js[tag=bookmark,indent=0]
 ----
-. While searching for new hotels, the app should also display an icon on hotels that are already bookmarked .
+. While searching for hotels, the app should also display an icon on hotels that are previously bookmarked .
 To do so, you will add a new method to query hotel Ids.
 Insert a new method signature in *HotelFinder-RCTBridge.m*.
 +
@@ -249,30 +266,28 @@ Insert a new method signature in *HotelFinder-RCTBridge.m*.
 ----
 include::{examplesdir}/{hotel-finder-bridge}[tag=query-ids,indent=0]
 ----
-Implement the corresponding method natively in *HotelFinderNative.swift*.
+. Implement the corresponding method natively in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
 include::{examplesdir}/{hotel-finder-native}[tag=query-ids,indent=0]
 ----
-You can now call it from the `componentWillMount` method in *Search.js*.
+. You can now call `queryBookmarkIds` java method from *Search.js*. For that, add the following to the `queryBookmarkIds` method in *Search.js*
 +
 [source,javascript]
 ----
 include::{examplesdir}/HotelFinder/ui/Search.js[tag=query-ids,indent=0]
 ----
 . Build & run.
-. Click *Hotels* and search for a hotel (type "UK" in the location field for example).
+. Click *Hotels* and search for a hotel (type "UK" in the country field for example).
 . You can now swipe a table view row to bookmark a hotel.
 The bookmark icon is displayed.
 +
 image::swipe-row.gif[]
 
-In the next section, you will query the bookmarked hotels to display them on the first screen.
+In the next section, you will query the bookmarked hotels to display them on the _Bookmarks_ screen.
 
 == List Bookmarks
-
-To query bookmark documents, you will write a JOIN query between the document of type `bookmarkedhotels` which contains hotel Ids and documents of type `hotels` which contain all the other fields (`name`, `address`, `phone` etc.)
 
 . Insert a new method signature in *HotelFinder-RCTBridge.m*.
 +
@@ -280,37 +295,46 @@ To query bookmark documents, you will write a JOIN query between the document of
 ----
 include::{examplesdir}/{hotel-finder-bridge}[tag=query-bookmarks,indent=0]
 ----
-Implement the corresponding method natively in *HotelFinderNative.swift*.
+
+. Implement the corresponding method natively in *HotelFinderNative.swift*.
 +
 [source,swift]
 ----
 include::{examplesdir}/{hotel-finder-native}[tag=query-bookmarks,indent=0]
 ----
-On the JavaScript side, you must first import the `HotelFinderNative` module.
+To query bookmark documents, you will write a JOIN query between the document of type `bookmarkedhotels` which contains hotel Ids and documents of type `hotels` which contain all the other fields (`name`, `address`, `phone` etc.)
+
+. On the JavaScript side, you must first import the `HotelFinderNative` ReactNative module.
 Add the following to the top of *HotelFinder/ui/Bookmarks.js*.
 +
 [source,javascript]
 ----
 include::{examplesdir}/HotelFinder/ui/Bookmarks.js[tag=import,indent=0]
 ----
-You can now call it from the `queryBookmarkDocuments` method in *Bookmarks.js*.
+You can now call the `queryBookmarkDocuments` native method from *Bookmarks.js*. Add the following text to the `queryBookmarkDocuments` method in *Bookmarks.js*.
 +
 [source,javascript]
 ----
 include::{examplesdir}/HotelFinder/ui/Bookmarks.js[tag=query-bookmarks,indent=0]
 ----
 . Build and run.
-. You should now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section.
+. You should now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section listed in the _bookmarks_ screen
 +
 image::home-screen.png[]
 
+By now, the pattern should seem very familiar and essentially consists of the following steps
+- Declare the method to be exported in *HotelFinder-RCTBridge.m*
+- Implement the method natively in *HotelFinderNative.swift*. This layer will interact with the native iOS implementation of Couchbase Lite for data persistence functions.
+- Invoke the exported method from JS (you will have to import the ReactNative module the very first time)
+
+
 == Conclusion
 
-Well done, you have learned how to import Couchbase Lite in a React Native project.
-And how to add search and persistence functionalities to your application!
-You can find a working copy of the end result in the link:{attachmentsdir}/final-project.zip[final project] zip file.
-The final project contains a few additional functionalities.
-More specifically, the ability to:
+*Well done!* You have learned how to import Couchbase Lite in a React Native project , and how to add search and persistence functionalities to your application!
 
-* Unbookmark a hotel on the Bookmarks screen.
-* Unbookmark a hotel on the Search screen.
+As an exercise, you can follow the same procedure to implement 
+- Unbookmark a hotel on the Bookmarks screen.
+- Unbookmark a hotel on the Search screen.
+
+You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file.
+The final project also implements the missing functionalities mentioned above.
