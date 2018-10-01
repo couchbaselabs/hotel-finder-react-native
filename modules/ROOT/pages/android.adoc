@@ -16,18 +16,23 @@ The application contains 2 screens:
 - *Bookmarks Screen:* to list the bookmarked hotels. You can unbookmark a previously bookmarked hotel from this screen
 - *Search Screen:* to search for hotels by providing a location and/or full-text search query. You can bookmark (or unbookmark) a hotel from this screen.
 
-image::android_flow.jpg[,50%]
+image::android_flow.jpg[]
 
 == Architecture
 
-The user Interface is written in JavaScript while the business logic and data model is written in native Java . The data model uses Couchbase Lite as the embedded data persistance layer. https://facebook.github.io/react-native/docs/native-modules-android  [React Native module] acts as the bridging layer between the Javascript layer and the native java layer. 
+The user Interface is written in JavaScript while the business logic and data model is written in native Java.
+The data model uses Couchbase Lite as the embedded data persistence layer.
+https://facebook.github.io/react-native/docs/native-modules-android[React Native module] acts as the bridging layer between the JavaScript layer and the native Java layer.
 
 This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management. 
 
 image::arch-android.jpg[]
 
 == Data Model
-The data model for the app is very straightforward. There are two types of documents :
+
+The data model for the app is very straightforward.
+There are two types of documents:
+
 - The _"bookmarkedhotels"_ document which includes the list of Ids corresponding to the hotels that have been bookmarked
 - The _"hotel"_ document which contains the details of the bookmarked hotel. The bookmarkedhotels document references the hotel document.
 
@@ -207,12 +212,12 @@ include::{examplesdir}/HotelFinder/ui/Search.js[tag=import,indent=0]
 The `HotelFinderNative` constant corresponds to the native module that was created in the <<java-setup,Java Setup>> section.
 . Next, you must implement a method in the `HotelFinderNative` module before it can be accessed in JavaScript.
 Implement this method in *HotelFinderNative.java*.
-
++
 This code creates the Full-Text search query using the `match()` operator.
-
++
 In this particular example, the match expression looks for the `descriptionText` value in the `description` property.
 This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.This expression is then used in the `where` clause of the query in the usual way.
-
++
 The `ReactMethod` annotation is used to mark methods that are exposed to React Native.
 +
 [source,java]
@@ -231,12 +236,12 @@ include::{examplesdir}/HotelFinder/ui/Search.js[tag=search,indent=0]
 . In search screen. enter "UK" in the _Country_ input field and press the *Lookup* button.
 You should now see a list of hotels in the search result.
 +
-image::android_search.gif[]
+image::android_search.gif[,350px]
 
 == Bookmark Hotel
 
 . Bookmarked hotel IDs are persisted in a separate document of type `bookmarkedhotels`.
-
++
 The first time a hotel is bookmarked, the `bookmarkedhotels` document is created.
 Subsequently, every time a new hotel is bookmarked, the hotel ID is appended to the `hotels` array of the existing document.
 You will add a method to find or create the document of type `bookmarkedhotels`.
@@ -247,7 +252,7 @@ Add the following `findOrCreateBookmarkDocument` method in *HotelFinderNative.ja
 include::{examplesdir}/{hotel-finder-native}[tag=find-or-create,indent=0]
 ----
 . You will now add the method to update the `bookmarkedhotels` document every time a hotel is bookmarked.
-
++
 Implement the `bookmark` method in *HotelFinderNative.java*.
 Every time a new hotel is bookmarked, the hotel ID is appended to the `hotels` array and the update is saved to the database.
 +
@@ -280,12 +285,11 @@ include::{examplesdir}/HotelFinder/ui/Search.js[tag=query-ids,indent=0]
 . You can now swipe a table view row to bookmark a hotel.
 The bookmark icon is displayed.
 +
-image::android_swipe.gif[]
+image::android_swipe.gif[,350px]
 
 In the next section, you will query the bookmarked hotels to display them on the _Bookmarks_ screen.
 
 == List Bookmarks
-
 
 . Insert a new method called `queryBookmarkDocuments` in *HotelFinderNative.java*.
 +
@@ -311,19 +315,20 @@ include::{examplesdir}/HotelFinder/ui/Bookmarks.js[tag=query-bookmarks,indent=0]
 . Build and run.
 . You should now see the hotel that was bookmarked in the <<bookmark-hotel, Bookmark Hotel>> section listed in the _bookmarks_ screen
 +
-image::android_home_screen.png[]
+image::android_home_screen.png[,350px]
 
+By now, the pattern should seem very familiar and essentially consists of the following steps:
 
-By now, the pattern should seem very familiar and essentially consists of the following steps
-- Implement the method natively in *HotelFinderNative.java*. This layer will interact with the native Android Java implementation of Couchbase Lite for data persistence functions.
-- Invoke the exported method from JS (you will have to import the ReactNative module the very first time)
-
+- Implement the method natively in *HotelFinderNative.java*.
+This layer will interact with the native Android Java implementation of Couchbase Lite for data persistence functions.
+- Invoke the exported method from JavaScript (you will have to import the React Native module the very first time).
 
 == Conclusion
 
-*Well done!* You have learned how to import Couchbase Lite in a React Native project , and how to add search and persistence functionalities to your application!
+*Well done!* You have learned how to import Couchbase Lite in a React Native project, and how to add search and persistence functionalities to your application!
 
-As an exercise, you can follow the same procedure to implement 
+As an exercise, you can follow the same procedure to implement the functionality to:
+
 - Unbookmark a hotel on the Bookmarks screen.
 - Unbookmark a hotel on the Search screen.
 
