@@ -33,7 +33,9 @@ export default class Row extends React.Component {
             {this.props.hotel.phone}
           </Text>
         </View>
-        {this.isBookmarked()}
+        <View style={styles.rowBookmarkIcon}>
+          {this.isBookmarked()}
+        </View>
       </View>
     )
   }
@@ -44,6 +46,9 @@ const styles = StyleSheet.create({
     color: 'gray',
     fontSize: 20,
     paddingTop: 5,
+  },
+  rowBookmarkIcon: {
+    flex: 1,
   },
   rowContainer: {
     flex: 1,
@@ -57,6 +62,7 @@ const styles = StyleSheet.create({
   },
   rowInformation: {
     padding: 15,
+    flex: 5,
   },
   rowPhone: {
     color: 'darkblue',
