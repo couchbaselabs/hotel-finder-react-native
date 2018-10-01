@@ -87,6 +87,12 @@ Loading dependency graph...
 ----
 . Open the Android Studio project at *HotelFinder/android/build.gradle*.
 . Build and run.
+If you run the app on SDK 23 or above you will be prompted to allow the "Display over other apps" permission the first time the app is installed.
+Make sure to allow this permission and run the app again from Android Studio.
+It allows React Native to overlay the status when downloading a new bundle from the dev server.
+This permission is only required during development so end users wouldn't perform these steps in a production build of the application.
++
+image::overlay-permissions.png[]
 . You can click on the *Hotels* button to run a search query.
 The result of the query will be empty.
 
