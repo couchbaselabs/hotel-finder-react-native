@@ -131,7 +131,11 @@ public class HotelFinderNative extends ReactContextBaseJavaModule {
 ----
 include::{examplesdir}/{hotel-finder-package}[tag=hotel-finder-package,indent=0]
 ----
-. Open the *MainApplication.java* and  update the `getPackages` method to return the *HotelFinderPackage* package
+This code subclasses the `ReactPackage` class and is required by React Native.
+Packages can contain multiple modules which is useful if you wish to separate the native logic into separate modules.
+In this example, there is only one module to register, `HotelFinderNative`.
+. Next, you must register the package in React Native's `getPackages` method.
+Open *MainApplication.java* and  update the `getPackages` method to also include `HotelFinderPackage` in the list that is returned.
 +
 [source,java]
 ----
