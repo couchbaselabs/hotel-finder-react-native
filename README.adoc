@@ -1,12 +1,33 @@
-= Getting Started
+= Installation
 
+. Run the following commands in your Terminal.
++
 [source,bash]
 ----
-git clone git@github.com:jamiltz/couchbase-react-native-ios.git
-cd HotelFinder
+cd modules/ROOT/examples/HotelFinder
+npm install -g react-native-cli
 npm install
+react-native link
+----
+The `react-native link` command bundles native dependencies in your Xcode project.
+It is required in the https://react-native-training.github.io/react-native-elements/docs/0.19.0/getting_started.html[react-native-elements] installation process.
+. Start the React Native development server.
++
+[source,bash]
+----
 npm run start
 ----
+The `npm run start` command starts a web server that bundles and serves the JavaScript code to the application.
+You should see the following in the output.
++
+[source,bash]
+----
+Metro Bundler ready.
 
-. Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj*.
-. Build and run. You should see the following.
+Loading dependency graph...
+----
+. Open the Xcode project at *HotelFinder/ios/HotelFinder.xcodeproj* or Android Studio project at *HotelFinder/android/build.gradle*.
++
+NOTE: On iOS, you will need to add *CouchbaseLiteSwift.framework* to the Xcode project which can be downloaded from https://www.couchbase.com/downloads[couchbase.com/downloads].
+. Build and run.
+. You can click on the *Hotels* button to run a search query.
