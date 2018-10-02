@@ -34,49 +34,19 @@ import java.util.List;
 
 public class HotelFinderNative extends ReactContextBaseJavaModule {
 
-    private static String DB_NAME = "travel-sample";
     private static String DOC_TYPE = "bookmarkedhotels";
-
     private Database database;
 
     HotelFinderNative(ReactApplicationContext reactContext) {
         super(reactContext);
-        this.setupDatabase();
+        DatabaseManager.getSharedInstance(reactContext);
+        this.database = DatabaseManager.getDatabase();
     }
 
     @Override
     public String getName() {
         return "HotelFinderNative";
     }
-
-    // tag::setup-database[]
-    private void setupDatabase() {
-        Context context = getReactApplicationContext();
-        if (!Database.exists("travel-sample", context.getFilesDir())) {
-            String assetFile = String.format("%s.cblite2.zip", DB_NAME);
-            Utils.installPrebuiltDatabase(context, assetFile);
-        }
-        DatabaseConfiguration configuration = new DatabaseConfiguration(context);
-        try {
-            this.database = new Database(DB_NAME, configuration);
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-        this.createIndexes();
-    }
-    // end::setup-database[]
-
-    // tag::create-index[]
-    private void createIndexes() {
-        try {
-            FullTextIndexItem item = FullTextIndexItem.property("description");
-            FullTextIndex index = IndexBuilder.fullTextIndex(item);
-            database.createIndex("descFTSIndex", index);
-        } catch (CouchbaseLiteException e) {
-            e.printStackTrace();
-        }
-    }
-    // end::create-index[]
 
     // tag::search[]
     @ReactMethod

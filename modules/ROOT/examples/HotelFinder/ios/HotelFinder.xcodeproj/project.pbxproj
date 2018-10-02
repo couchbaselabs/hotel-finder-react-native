@@ -53,6 +53,7 @@
 		BE848ED02132811B00C02CE6 /* travel-sample.cblite2 in Resources */ = {isa = PBXBuildFile; fileRef = BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */; };
 		BE922E0421312D7E00E0164F /* HotelFinder-RCTBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */; };
 		BE922E2B21312F2B00E0164F /* HotelFinderNative.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */; };
+		BEBBCEF82163A7D7006A5C87 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBBCEF72163A7D7006A5C87 /* DatabaseManager.swift */; };
 		BEECC2D921480E0600A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
 		BEECC2DA21480E0C00A56036 /* CouchbaseLiteSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; };
 		BEECC2DB21480E0C00A56036 /* CouchbaseLiteSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -411,6 +412,7 @@
 		BE848ECF2132811A00C02CE6 /* travel-sample.cblite2 */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "travel-sample.cblite2"; path = "HotelFinder/travel-sample.cblite2"; sourceTree = "<group>"; };
 		BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "HotelFinder-RCTBridge.m"; path = "HotelFinder/HotelFinder-RCTBridge.m"; sourceTree = "<group>"; };
 		BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HotelFinderNative.swift; path = HotelFinder/HotelFinderNative.swift; sourceTree = "<group>"; };
+		BEBBCEF72163A7D7006A5C87 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DatabaseManager.swift; path = HotelFinder/DatabaseManager.swift; sourceTree = "<group>"; };
 		BEECC2D821480E0600A56036 /* CouchbaseLiteSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CouchbaseLiteSwift.framework; path = Frameworks/CouchbaseLiteSwift.framework; sourceTree = "<group>"; };
 		C7916272E68F49C382D0C3C4 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		C7D02E07EE3B4C2CABCD6BFA /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
@@ -567,6 +569,7 @@
 				13B07FB71A68108700A75B9A /* main.m */,
 				BE922E0321312D7E00E0164F /* HotelFinder-RCTBridge.m */,
 				BE922E2A21312F2B00E0164F /* HotelFinderNative.swift */,
+				BEBBCEF72163A7D7006A5C87 /* DatabaseManager.swift */,
 			);
 			name = HotelFinder;
 			sourceTree = "<group>";
@@ -1285,6 +1288,7 @@
 			files = (
 				BE922E0421312D7E00E0164F /* HotelFinder-RCTBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				BEBBCEF82163A7D7006A5C87 /* DatabaseManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				BE922E2B21312F2B00E0164F /* HotelFinderNative.swift in Sources */,
 			);

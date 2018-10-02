@@ -12,38 +12,8 @@ import CouchbaseLiteSwift
 @objc (HotelFinderNative)
 class HotelFinderNative: NSObject {
   
-  let DB_NAME = "travel-sample"
+  let database = DatabaseManager.sharedInstance().database
   let DOC_TYPE = "bookmarkedhotels"
-  
-  // tag::setup-database[]
-  lazy var database: Database = {
-    let path = Bundle.main.path(forResource: self.DB_NAME, ofType: "cblite2")!
-    if !Database.exists(withName: self.DB_NAME) {
-      do {
-        try Database.copy(fromPath: path, toDatabase: self.DB_NAME, withConfig: nil)
-      } catch {
-        fatalError("Could not copy database")
-      }
-    }
-    do {
-      let database = try Database(name: "travel-sample")
-      self.createIndex(database)
-      return database
-    } catch {
-      fatalError("Could not copy database")
-    }
-  }()
-  // end::setup-database[]
-  
-  // tag::create-index[]
-  func createIndex(_ database: Database) {
-    do {
-      try database.createIndex(IndexBuilder.fullTextIndex(items: FullTextIndexItem.property("description")).ignoreAccents(false), withName: "descFTSIndex")
-    } catch {
-      print(error)
-    }
-  }
-  // end::create-index[]
   
   // tag::search[]
   @objc func search(_ description: String?, _ location: String = "", _ errorCallback: @escaping () -> Void, _ successCallback: @escaping ([[[AnyHashable : Any]]]) -> Void) {

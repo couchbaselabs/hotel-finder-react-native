@@ -2,6 +2,7 @@
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 :hotel-finder-native: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderNative.java
 :hotel-finder-package: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderPackage.java
+:database-manager: HotelFinder/android/app/src/main/java/com/hotelfinder/DatabaseManager.java
 :assets: HotelFinder/android/app/src/main/assets/travel-sample.cblite2.zip
 
 ++++
@@ -117,9 +118,6 @@ These methods will do the following:
 ----
 public class HotelFinderNative extends ReactContextBaseJavaModule {
 
-    private static String DB_NAME = "travel-sample";
-    private static String DOC_TYPE = "bookmarkedhotels";
-
     HotelFinderNative(ReactApplicationContext reactContext) {
         super(reactContext);
     }
@@ -174,37 +172,36 @@ Note that in a real world application, the data could be synced down from other 
 The pre-built database needs to be added to the Android Studio project.
 
 . Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over to *android/app/src/main/assets/*.
-. Next, add a `database` instance variable in *HotelFinderNative.java*.
+. You will use the singleton pattern to setup the database instance.
+Create a new file named *DatabaseManager.java* and insert the following.
 +
-[source,java]
-----
-private Database database;
-----
-. Implement the following method in *HotelFinderNative.java* and call it from the class constructor.
-+
-[source,java]
-----
-include::{examplesdir}/{hotel-finder-native}[tag=setup-database,indent=0]
-----
 In this code, you first check if a database named "travel-sample" exists.
 If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
-The database is then opened and the instance returned.
-In *HotelFinderNative.java*, add the following method.
-This method creates the Full-Text Search index on the `description` property.
+The database is then opened and the instance is set.
+The `createIndex` method creates the Full-Text Search index on the `description` property.
 +
 [source,java]
 ----
-include::{examplesdir}/{hotel-finder-native}[tag=create-index,indent=0]
+include::{examplesdir}/{database-manager}[tag=setup-database,indent=0]
 ----
-Finally, call the `setupDatabase` method from the class initializer.
+. Next, add the following properties in *HotelFinderNative.java*.
++
+[source,java]
+----
+private static String DOC_TYPE = "bookmarkedhotels";
+private Database database;
+----
+. Finally, update the `HotelFinderNative` class initializer to include code to initialize the database.
 +
 [source,java]
 ----
 HotelFinderNative(ReactApplicationContext reactContext) {
   super(reactContext);
-  this.setupDatabase();
+  DatabaseManager.getSharedInstance(reactContext);
+  this.database = DatabaseManager.getDatabase();
 }
 ----
+This code adds the database as an instance property on the `HotelFinderNative` class.
 . Build the project. Confirm that it builds successfully.
 
 In the next sections, you will use this instance variable to perform various operations.

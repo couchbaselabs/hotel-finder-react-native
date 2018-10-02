@@ -2,6 +2,7 @@
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 :hotel-finder-bridge: HotelFinder/ios/HotelFinder/HotelFinder-RCTBridge.m
 :hotel-finder-native: HotelFinder/ios/HotelFinder/HotelFinderNative.swift
+:database-manager: HotelFinder/ios/HotelFinder/DatabaseManager.swift
 
 ++++
 <link rel="canonical" href="http://docs.couchbase.com/samples-js-staging/hotel-finder/ios.html" />
@@ -165,24 +166,27 @@ Note that in a real world application, the data could be synced down from other 
 The pre-built database needs to be added to the Xcode project.
 
 . Download link:{attachmentsdir}/travel-sample.cblite2.zip[travel-sample.cblite2.zip] and drag it over the Xcode project navigator.
-Make sure to select the *Copy items if needed* checkbox.
-. Next, you will use an instance variable to open and access the database.
-In *HotelFinderNative.swift*, replace the `/* code will be added here later. */` comment with the following lines.
+Be sure to select the *Copy items if needed* checkbox.
+. You will use the singleton pattern to setup the database instance.
+Create a new file named *DatabaseManager.swift* and insert the following.
 +
-[source,swift]
-----
-include::{examplesdir}/{hotel-finder-native}[tag=setup-database,indent=0]
-----
 In this code, you first check if a database named "travel-sample" exists.
 If it doesn't exist, the bundled database file is copied to the default Couchbase Lite directory.
-The database is then opened and the instance returned.
-In *HotelFinderNative.swift*, add the following method.
-This method creates the Full-Text Search index on the `description` property.
+The database is then opened and the instance is set.
+The `createIndex` method creates the Full-Text Search index on the `description` property.
 +
 [source,swift]
 ----
-include::{examplesdir}/{hotel-finder-native}[tag=create-index,indent=0]
+include::{examplesdir}/{database-manager}[tag=setup-database,indent=0]
 ----
+. Next, add the following properties in *HotelFinderNative.swift*.
++
+[source,swift]
+----
+let database = DatabaseManager.sharedInstance().database
+let DOC_TYPE = "bookmarkedhotels"
+----
+This code adds the database as an instance property on the `HotelFinderNative` class.
 . Build & run. The project should build successfully.
 
 In the next sections, you will use this instance variable to perform various operations.
