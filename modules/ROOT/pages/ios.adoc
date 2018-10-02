@@ -1,4 +1,4 @@
-= Couchbase Lite with React Native on iOS
+= Build a React Native Module with Couchbase Lite on iOS
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 :hotel-finder-bridge: HotelFinder/ios/HotelFinder/HotelFinder-RCTBridge.m
 :hotel-finder-native: HotelFinder/ios/HotelFinder/HotelFinderNative.swift

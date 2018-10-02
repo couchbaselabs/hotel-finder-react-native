@@ -1,4 +1,4 @@
-= Couchbase Lite with React Native on Android
+= Build a React Native Module with Couchbase Lite on Android
 :snippet: {attachmentsdir}/HotelFinder/ios/HotelFinder/
 :hotel-finder-native: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderNative.java
 :hotel-finder-package: HotelFinder/android/app/src/main/java/com/hotelfinder/HotelFinderPackage.java
