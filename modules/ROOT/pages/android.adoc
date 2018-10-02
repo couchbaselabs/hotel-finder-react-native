@@ -229,6 +229,9 @@ In this particular example, the match expression looks for the `descriptionText`
 This match expression is logically ANDed with an `equalTo` comparison expression which looks for the `locationText` value in the `country`, `city`, `state` or `address` properties.This expression is then used in the `where` clause of the query in the usual way.
 +
 The `ReactMethod` annotation is used to mark methods that are exposed to React Native.
+Note that on iOS, we use a xref::ios.adoc#native-modules-setup[header file] for method signatures.
+To do the same on Android, you could declare an interface to list all signatures and have the `HotelFinderNative` class implement methods from the interface.
+In this tutorial however, you will implement the methods directly in *HotelFinderNative.java*.
 +
 [source,java]
 ----
