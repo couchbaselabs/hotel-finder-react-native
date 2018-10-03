@@ -51,7 +51,7 @@ This tutorial requires the following components and versions to run successfully
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Java.
 
-== Tutorial Walkthrough
+== Getting Started
 
 *The User Interface has already been implemented in the starter project.
 You will add the code to persist and query data.*
@@ -342,5 +342,5 @@ As an exercise, you can follow the same procedure to implement the functionality
 - Unbookmark a hotel on the Bookmarks screen.
 - Unbookmark a hotel on the Search screen.
 
-You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file.
+You can find a working copy of the *completed project* in the link:{attachmentsdir}/final-project.zip[final project] zip file. To build and run the final project, follow the instructions outlined in the *Getting Started* section.
 The final project also implements the missing functionalities mentioned above.
