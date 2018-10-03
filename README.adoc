@@ -1,5 +1,10 @@
 = Installation
 
+. Clone the repo
+[source,bash]
+----
+git clone https://github.com/couchbaselabs/hotel-finder-react-native
+----
 . Run the following commands in your Terminal.
 +
 [source,bash]
