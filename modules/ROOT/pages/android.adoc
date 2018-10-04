@@ -88,10 +88,9 @@ Loading dependency graph...
 ----
 . Open the Android Studio project at *HotelFinder/android/build.gradle*.
 . Build and run.
-If you run the app on SDK 23 or above you will be prompted to allow the "Display over other apps" permission the first time the app is installed.
-Make sure to allow this permission and run the app again from Android Studio.
-It allows React Native to overlay the status when downloading a new bundle from the dev server.
-This permission is only required during development so end users wouldn't perform these steps in a production build of the application.
+
+.. *Note* If you run the app on SDK version 23 or above, you will be prompted to allow the "Display over other apps" permission the first time the app is installed. In some cases, you may see the app crash on initial launch. Relaunch the app if it does not relaunch automatically. That will display the permissions screen.
+Be sure to allow this permission and run the app again from Android Studio. This permission allows React Native to overlay the status when downloading a new bundle from the dev server.*This permission is only required during development so app users wouldn't perform these steps in a production build of the application.*
 +
 image::overlay-permissions.png[]
 . You can click on the *Hotels* button to run a search query.
@@ -234,6 +233,7 @@ In this tutorial however, you will implement the methods directly in *HotelFinde
 ----
 include::{examplesdir}/{hotel-finder-native}[tag=search,indent=0]
 ----
+
 . You can call the `search` swift method from *Search.js*. For this, add the following text to the `onChangeText` method in *Search.js*.
 
 +
