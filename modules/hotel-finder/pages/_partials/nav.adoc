@@ -1,2 +1,2 @@
-* xref:hotel-finder:ios.adoc[iOS]
-* xref:hotel-finder:android.adoc[Android]
+** xref:hotel-finder:ios.adoc[iOS]
+** xref:hotel-finder:android.adoc[Android]
