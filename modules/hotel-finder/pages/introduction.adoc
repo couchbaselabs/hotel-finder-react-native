@@ -1,0 +1,52 @@
+= Introduction
+:tabs:
+
+In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
+
+The sample project is an application that allows users to search and bookmark hotels from a Couchbase Lite database.
+The application contains 2 screens:
+
+- *Bookmarks Screen:* to list the bookmarked hotels. You can unbookmark a previously bookmarked hotel from this screen
+- *Search Screen:* to search for hotels by providing a location and/or full-text search query. You can bookmark (or unbookmark) a hotel from this screen.
+
+[{tabs}] 
+==== 
+Android:: 
++ 
+image::android_flow.jpg[]
+
+iOS::
++
+image::ios_flow.jpg[] 
+====
+
+== Architecture
+
+The user Interface is written in JavaScript while the business logic and data model is written in native Java.
+The data model uses Couchbase Lite as the embedded data persistence layer.
+https://facebook.github.io/react-native/docs/native-modules-android[React Native module] acts as the bridging layer between the JavaScript layer and the native Java layer.
+
+This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native Android framework for data management. 
+
+[{tabs}] 
+==== 
+Android:: 
++ 
+image::arch-android.jpg[]
+
+iOS::
++
+image::arch-ios.jpg[] 
+====
+
+== Data Model
+
+The data model for the app is very straightforward.
+There are two types of documents:
+
+- The _"bookmarkedhotels"_ document which includes the list of Ids corresponding to the hotels that have been bookmarked
+- The _"hotel"_ document which contains the details of the bookmarked hotel. The bookmarkedhotels document references the hotel document.
+
+image::datamodel.png[]
+
+Note that although we have modeled our data using a "by Reference" /normalized model, since Couchbase Lite is JSON Document store, you have the flexibility to embed the details of the hotels within the _bookmarkedhotels_ hotels. 
