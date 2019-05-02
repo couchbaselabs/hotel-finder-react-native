@@ -18,28 +18,6 @@ The application contains 2 screens:
 
 image::ios_flow.jpg[]
 
-== Architecture
-
-The user Interface is written in JavaScript while the business logic and data model is written in native Swift.
-The data model uses Couchbase Lite as the embedded data persistence layer.
-https://facebook.github.io/react-native/docs/native-modules-ios[React Native module] acts as the bridging layer between the Javascript layer and the native Swift layer.
-
-This architecture allows you to write the User Interface code once for both iOS and Android apps while leveraging Couchbase Lite's native iOS framework for data management. 
-
-image::arch-ios.jpg[]
-
-== Data Model
-
-The data model for the app is very straightforward.
-There are two types of documents:
-
-- The _"bookmarkedhotels"_ document which includes the list of Ids corresponding to the hotels that have been bookmarked
-- The _"hotel"_ document which contains the details of the bookmarked hotel. The bookmarkedhotels document references the hotel document.
-
-image::datamodel.png[]
-
-Note that although we have modeled our data using a "by Reference" /normalized model, since Couchbase Lite is JSON Document store, you have the flexibility to embed the details of the hotels within the _bookmarkedhotels_ hotels. 
-
 == Pre-requisites
 
 This tutorial requires the following components and versions to run successfully.
