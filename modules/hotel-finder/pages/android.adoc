@@ -5,10 +5,6 @@
 :database-manager: HotelFinder/android/app/src/main/java/com/hotelfinder/DatabaseManager.java
 :assets: HotelFinder/android/app/src/main/assets/travel-sample.cblite2.zip
 
-++++
-<link rel="canonical" href="http://docs.couchbase.com/samples-js-staging/hotel-finder/android.html" />
-++++
-
 In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
 
 The sample project is an application that allows users to search and bookmark hotels from a Couchbase Lite database.

@@ -4,10 +4,6 @@
 :hotel-finder-native: HotelFinder/ios/HotelFinder/HotelFinderNative.swift
 :database-manager: HotelFinder/ios/HotelFinder/DatabaseManager.swift
 
-++++
-<link rel="canonical" href="http://docs.couchbase.com/samples-js-staging/hotel-finder/ios.html" />
-++++
-
 In this tutorial, you will learn how to use Couchbase Lite in a React Native project.
 
 The sample project is an application that allows users to search and bookmark hotels from a Couchbase Lite database.
