@@ -18,9 +18,9 @@ image::ios_flow.jpg[]
 
 This tutorial requires the following components and versions to run successfully.
 
-* Xcode 10 or above
-* Swift 4.2
-* Couchbase Lite 2.1.1
+* Xcode 10.2 or above
+* Swift 5.1
+* Couchbase Lite 2.6
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Swift
 
