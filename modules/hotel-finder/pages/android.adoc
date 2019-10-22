@@ -21,7 +21,7 @@ This tutorial requires the following components and versions to run successfully
 
 * Android Studio 3.0 or above
 * Android SDK 19 or above
-* Couchbase Lite 2.1.1
+* Couchbase Lite 2.6.0
 
 The tutorial also assumes that the reader has a basic understanding of developing apps with React Native and Java.
 
@@ -62,6 +62,8 @@ Loading dependency graph...
 ----
 . Open the Android Studio project at *HotelFinder/android/build.gradle*.
 . Build and run.
+
+.. *Note* Depending on the version of Android Studio, you may be promoted to upgrade the version of gradle from the version specified in _gradle-wrapper.properties_. Go ahead and do that
 
 .. *Note* If you run the app on SDK version 23 or above, you will be prompted to allow the "Display over other apps" permission the first time the app is installed. In some cases, you may see the app crash on initial launch. Relaunch the app if it does not relaunch automatically. That will display the permissions screen.
 Be sure to allow this permission and run the app again from Android Studio. This permission allows React Native to overlay the status when downloading a new bundle from the dev server.*This permission is only required during development so app users wouldn't perform these steps in a production build of the application.*
@@ -133,7 +135,7 @@ The next step is to import the Couchbase Lite framework in your project.
 +
 [source,java]
 ----
-implementation 'com.couchbase.lite:couchbase-lite-android:2.1.0'
+implementation 'com.couchbase.lite:couchbase-lite-android:2.6.0'
 ----
 
 == Database Setup

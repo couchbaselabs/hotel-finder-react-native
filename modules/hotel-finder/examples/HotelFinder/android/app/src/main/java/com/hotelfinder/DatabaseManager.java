@@ -2,6 +2,7 @@ package com.hotelfinder;
 
 import android.content.Context;
 
+import com.couchbase.lite.CouchbaseLite;
 import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.DatabaseConfiguration;
@@ -22,7 +23,7 @@ public class DatabaseManager {
             String assetFile = String.format("%s.cblite2.zip", DB_NAME);
             Utils.installPrebuiltDatabase(context, assetFile);
         }
-        DatabaseConfiguration configuration = new DatabaseConfiguration(context);
+        DatabaseConfiguration configuration = new DatabaseConfiguration();
         try {
             database = new Database(DB_NAME, configuration);
         } catch (CouchbaseLiteException e) {
@@ -43,6 +44,7 @@ public class DatabaseManager {
 
     public static DatabaseManager getSharedInstance(Context context) {
         if (instance == null) {
+            CouchbaseLite.init(context);
             instance = new DatabaseManager(context);
         }
         return instance;
