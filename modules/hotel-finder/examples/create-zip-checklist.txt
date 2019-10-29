@@ -1,3 +1,9 @@
+Create final-project.zip:
+
+- Run `./package.sh final-project`
+
+Create starter-project.zip:
+
 - Remove code in Bookmarks.js and Search.js
 
 Android:
@@ -12,4 +18,4 @@ iOS:
 - Rm HotelFinder-RCTBridge.m
 - Rm HotelFinderNative.swift
 
-- Run package.sh script
+- Run `./package.sh starter-project`
